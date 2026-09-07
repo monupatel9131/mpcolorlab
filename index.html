@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MP Color Lab – Free Online Color Tools, Picker, Converter & Palette Generator</title>
+    <meta name="description" content="MP Color Lab offers free online color tools including color picker, HEX RGB converter, palette generator, gradient generator, contrast checker and image color extractor.">
+    <meta name="keywords" content="color picker, hex to rgb, color palette generator, css gradient generator, contrast checker, image color extractor, mp color lab, mp digital hub">
+    <meta name="author" content="MP Digital Hub">
+    <link rel="canonical" href="https://mpcolorlab.online/">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://mpcolorlab.online/">
+    <meta property="og:title" content="MP Color Lab – Free Online Color Tools">
+    <meta property="og:description" content="Explore, create, convert, and master colors with browser-based online tools by MP Digital Hub.">
+    <meta property="og:image" content="https://mpcolorlab.online/og-image.png">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MP Color Lab – Free Online Color Tools">
+    <meta name="twitter:description" content="Explore, create, convert, and master colors with browser-based online tools by MP Digital Hub.">
+
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' stop-color='%238b5cf6'/><stop offset='50%' stop-color='%233b82f6'/><stop offset='100%' stop-color='%2306b6d4'/></linearGradient></defs><path d='M30,15 L70,15 L60,45 L78,75 C83,83 77,90 68,90 L32,90 C23,90 17,83 22,75 L40,45 Z' fill='none' stroke='url(%23g)' stroke-width='8' stroke-linejoin='round'/><circle cx='50' cy='70' r='10' fill='%23ec4899'/><circle cx='40' cy='80' r='5' fill='%23eab308'/><circle cx='60' cy='78' r='6' fill='%2310b981'/></svg>">
+
+    <link rel="stylesheet" href="style.css">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "MP Color Lab",
+      "url": "https://mpcolorlab.online/",
+      "description": "Free online browser-based color utility suite for designers, developers, and creators.",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "All",
+      "author": {
+        "@type": "Organization",
+        "name": "MP Digital Hub"
+      }
+    }
+    </script>
+</head>
+<body>
+
+    <header class="header">
+        <div class="container header-container">
+            <a href="#home" class="logo">
+                <svg class="logo-svg" viewBox="0 0 100 100" width="40" height="40">
+                    <defs>
+                        <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#8b5cf6"/>
+                            <stop offset="50%" stop-color="#3b82f6"/>
+                            <stop offset="100%" stop-color="#06b6d4"/>
+                        </linearGradient>
+                    </defs>
+                    <path d="M30,15 L70,15 L60,45 L78,75 C83,83 77,90 68,90 L32,90 C23,90 17,83 22,75 L40,45 Z" fill="none" stroke="url(#logoGrad)" stroke-width="8" stroke-linejoin="round"/>
+                    <circle cx="50" cy="72" r="8" fill="#ec4899"/>
+                    <circle cx="38" cy="80" r="5" fill="#eab308"/>
+                    <circle cx="62" cy="78" r="6" fill="#10b981"/>
+                    <text x="50" y="38" font-family="sans-serif" font-weight="900" font-size="16" fill="#ffffff" text-anchor="middle">MP</text>
+                </svg>
+                <div class="logo-text">
+                    <span class="brand-name">MP Color Lab</span>
+                    <span class="brand-sub">by MP Digital Hub</span>
+                </div>
+            </a>
+
+            <nav class="nav-desktop">
+                <a href="#home" class="nav-link">Home</a>
+                <a href="#picker" class="nav-link">Color Picker</a>
+                <a href="#converter" class="nav-link">Converters</a>
+                <a href="#palettes" class="nav-link">Palettes</a>
+                <a href="#gradients" class="nav-link">Gradients</a>
+                <a href="#image-tools" class="nav-link">Image Colors</a>
+                <a href="#contrast" class="nav-link">Contrast</a>
+                <a href="#more-tools" class="nav-link">More Tools</a>
+            </nav>
+
+            <div class="header-actions">
+                <button id="theme-toggle" class="btn-icon" aria-label="Toggle Light/Dark Theme">
+                    <span class="icon-sun">☀️</span>
+                    <span class="icon-moon">🌙</span>
+                </button>
+                <a href="#more-tools" class="btn btn-primary hide-mobile">Explore Tools</a>
+                <button id="hamburger" class="hamburger-btn" aria-label="Toggle Navigation Menu">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="mobile-menu">
+            <a href="#home" class="mobile-nav-link">Home</a>
+            <a href="#picker" class="mobile-nav-link">Color Picker</a>
+            <a href="#converter" class="mobile-nav-link">Converters</a>
+            <a href="#palettes" class="mobile-nav-link">Palettes</a>
+            <a href="#gradients" class="mobile-nav-link">Gradients</a>
+            <a href="#image-tools" class="mobile-nav-link">Image Colors</a>
+            <a href="#contrast" class="mobile-nav-link">Contrast Checker</a>
+            <a href="#more-tools" class="mobile-nav-link">More Tools</a>
+            <a href="#about" class="mobile-nav-link">About</a>
+            <a href="#contact" class="mobile-nav-link">Contact</a>
+        </div>
+    </header>
+
+    <main id="home">
+        <section class="hero-section">
+            <div class="container hero-container">
+                <div class="hero-content">
+                    <span class="badge">100% Free • Browser-Based • No Backend Required</span>
+                    <h1 class="hero-title">Your Complete <span class="text-gradient">Online Color</span> Toolkit</h1>
+                    <p class="hero-subtitle">Pick, convert, generate, compare, and master beautiful colors — all in one place. Engineered for designers, developers, and digital creators.</p>
+                    <div class="hero-cta-group">
+                        <a href="#more-tools" class="btn btn-primary btn-lg">Explore Color Tools</a>
+                        <a href="#picker" class="btn btn-secondary btn-lg">Pick a Color</a>
+                    </div>
+                </div>
+
+                <div class="hero-visual">
+                    <div class="glass-card visual-card">
+                        <div class="visual-circles">
+                            <div class="v-circle c1"></div>
+                            <div class="v-circle c2"></div>
+                            <div class="v-circle c3"></div>
+                        </div>
+                        <div class="visual-gradient-box" id="hero-gradient-preview"></div>
+                        <div class="visual-info">
+                            <div class="v-badge"><span id="hero-hex-label">#8B5CF6</span></div>
+                            <div class="v-badge"><span id="hero-rgb-label">rgb(139, 92, 246)</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="search-section">
+            <div class="container">
+                <div class="search-box glass-card">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="tool-search-input" placeholder="Search color tools (e.g., gradient, palette, contrast, hex, image)..." aria-label="Search color tools">
+                    <button class="btn btn-sm btn-primary" onclick="clearToolSearch()">Clear</button>
+                </div>
+            </div>
+        </section>
+
+        <div class="container my-2">
+            <div class="ad-placeholder">
+                <span class="ad-label">ADVERTISEMENT PLACEHOLDER</span>
+            </div>
+        </div>
+
+        <section id="picker" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Advanced Color Picker & Format Finder</h2>
+                    <p>Select any color to instantly analyze HEX, RGB, HSL, HSV, CMYK, and CSS string values.</p>
+                </div>
+
+                <div class="grid grid-2 glass-card tool-container">
+                    <div class="picker-controls">
+                        <div class="form-group">
+                            <label for="main-native-picker">Choose Color Visualizer:</label>
+                            <div class="picker-input-wrapper">
+                                <input type="color" id="main-native-picker" value="#8b5cf6" class="color-picker-large">
+                                <input type="text" id="main-hex-input" value="#8b5cf6" class="form-control text-mono" style="font-size: 1.25rem;">
+                            </div>
+                        </div>
+
+                        <div class="btn-group">
+                            <button class="btn btn-secondary" onclick="setRandomColor()">🎲 Random Color</button>
+                            <button class="btn btn-outline" onclick="saveCurrentToFavorites()">⭐ Save Favorite</button>
+                        </div>
+
+                        <div class="color-preview-box" id="main-color-display">
+                            <span class="preview-text" id="main-preview-text">#8B5CF6</span>
+                        </div>
+                    </div>
+
+                    <div class="color-values-grid">
+                        <div class="value-card">
+                            <span class="val-label">HEX</span>
+                            <span class="val-code text-mono" id="val-hex">#8b5cf6</span>
+                            <button class="btn-copy" onclick="copyText('val-hex')">Copy</button>
+                        </div>
+                        <div class="value-card">
+                            <span class="val-label">RGB</span>
+                            <span class="val-code text-mono" id="val-rgb">rgb(139, 92, 246)</span>
+                            <button class="btn-copy" onclick="copyText('val-rgb')">Copy</button>
+                        </div>
+                        <div class="value-card">
+                            <span class="val-label">HSL</span>
+                            <span class="val-code text-mono" id="val-hsl">hsl(258, 90%, 66%)</span>
+                            <button class="btn-copy" onclick="copyText('val-hsl')">Copy</button>
+                        </div>
+                        <div class="value-card">
+                            <span class="val-label">HSV / HSB</span>
+                            <span class="val-code text-mono" id="val-hsv">hsv(258, 63%, 96%)</span>
+                            <button class="btn-copy" onclick="copyText('val-hsv')">Copy</button>
+                        </div>
+                        <div class="value-card">
+                            <span class="val-label">CMYK (Approx)</span>
+                            <span class="val-code text-mono" id="val-cmyk">cmyk(43%, 63%, 0%, 4%)</span>
+                            <button class="btn-copy" onclick="copyText('val-cmyk')">Copy</button>
+                        </div>
+                        <div class="value-card">
+                            <span class="val-label">Color Name</span>
+                            <span class="val-code text-mono" id="val-name">Medium Purple</span>
+                            <button class="btn-copy" onclick="copyText('val-name')">Copy</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="converter" class="section bg-surface">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Universal Color Format Converter</h2>
+                    <p>Enter any HEX, RGB, or HSL color code to automatically convert across all primary color spaces.</p>
+                </div>
+
+                <div class="glass-card tool-container">
+                    <div class="grid grid-3">
+                        <div class="form-group">
+                            <label for="conv-hex">HEX Input</label>
+                            <input type="text" id="conv-hex" class="form-control text-mono" placeholder="#8B5CF6">
+                        </div>
+                        <div class="form-group">
+                            <label for="conv-rgb">RGB Input</label>
+                            <input type="text" id="conv-rgb" class="form-control text-mono" placeholder="rgb(139, 92, 246)">
+                        </div>
+                        <div class="form-group">
+                            <label for="conv-hsl">HSL Input</label>
+                            <input type="text" id="conv-hsl" class="form-control text-mono" placeholder="hsl(258, 90%, 66%)">
+                        </div>
+                    </div>
+                    <div id="conv-error" class="error-msg"></div>
+                    <div class="color-bar-preview mt-2" id="conv-preview-bar"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="palettes" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Harmony & Color Palette Generator</h2>
+                    <p>Generate color schemes based on color theory rule sets.</p>
+                </div>
+
+                <div class="glass-card tool-container">
+                    <div class="palette-controls">
+                        <div class="form-group">
+                            <label for="palette-base-color">Base Color:</label>
+                            <input type="color" id="palette-base-color" value="#3b82f6" class="color-picker-sm">
+                        </div>
+                        <div class="form-group">
+                            <label for="palette-mode">Harmony Rule:</label>
+                            <select id="palette-mode" class="form-control" onchange="generatePalette()">
+                                <option value="complementary">Complementary</option>
+                                <option value="analogous">Analogous</option>
+                                <option value="triadic">Triadic</option>
+                                <option value="split">Split Complementary</option>
+                                <option value="tetradic">Tetradic (Square)</option>
+                                <option value="monochromatic">Monochromatic</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-primary" onclick="generatePalette()">Generate Scheme</button>
+                        <button class="btn btn-secondary" onclick="exportPaletteJSON()">Export JSON</button>
+                    </div>
+
+                    <div id="palette-cards-container" class="palette-display-grid mt-2">
+                        </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="shades" class="section bg-surface">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Shades & Tints Generator</h2>
+                    <p>Generate lighter tints and darker shades from any base color for UI design scales.</p>
+                </div>
+
+                <div class="glass-card tool-container">
+                    <div class="picker-controls inline-flex">
+                        <label for="shades-base-color">Base Color:</label>
+                        <input type="color" id="shades-base-color" value="#06b6d4" class="color-picker-sm" onchange="generateShadesTints()">
+                        <input type="text" id="shades-hex-text" value="#06b6d4" class="form-control text-mono" style="max-width: 140px;" oninput="generateShadesTints()">
+                    </div>
+
+                    <h4 class="mt-2">Lighter Tints</h4>
+                    <div id="tints-container" class="shades-grid"></div>
+
+                    <h4 class="mt-2">Darker Shades</h4>
+                    <div id="shades-container" class="shades-grid"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="gradients" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Advanced CSS Gradient Generator</h2>
+                    <p>Design linear, radial, and conic gradients with live CSS code output.</p>
+                </div>
+
+                <div class="grid grid-2 glass-card tool-container">
+                    <div class="gradient-controls">
+                        <div class="form-group">
+                            <label for="grad-type">Gradient Type:</label>
+                            <select id="grad-type" class="form-control" onchange="updateGradient()">
+                                <option value="linear">Linear</option>
+                                <option value="radial">Radial</option>
+                                <option value="conic">Conic</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="angle-group">
+                            <label for="grad-angle">Angle (Degrees): <span id="grad-angle-val">135</span>°</label>
+                            <input type="range" id="grad-angle" min="0" max="360" value="135" class="form-control" oninput="updateGradient()">
+                        </div>
+
+                        <div class="grid grid-2">
+                            <div class="form-group">
+                                <label for="grad-c1">Color Stop 1:</label>
+                                <input type="color" id="grad-c1" value="#ec4899" class="color-picker-sm" onchange="updateGradient()">
+                            </div>
+                            <div class="form-group">
+                                <label for="grad-c2">Color Stop 2:</label>
+                                <input type="color" id="grad-c2" value="#8b5cf6" class="color-picker-sm" onchange="updateGradient()">
+                            </div>
+                        </div>
+
+                        <button class="btn btn-secondary mt-1" onclick="randomizeGradient()">🎲 Random Gradient</button>
+                    </div>
+
+                    <div class="gradient-preview-pane">
+                        <div id="gradient-box-display" class="gradient-display-box"></div>
+                        <div class="css-output-box mt-1">
+                            <code id="gradient-css-code" class="text-mono">background: linear-gradient(135deg, #ec4899, #8b5cf6);</code>
+                            <button class="btn-copy" onclick="copyText('gradient-css-code')">Copy CSS</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contrast" class="section bg-surface">
+            <div class="container">
+                <div class="section-header">
+                    <h2>WCAG Color Contrast Checker</h2>
+                    <p>Ensure text compliance against Web Content Accessibility Guidelines (WCAG 2.1).</p>
+                </div>
+
+                <div class="grid grid-2 glass-card tool-container">
+                    <div class="contrast-inputs">
+                        <div class="form-group">
+                            <label for="contrast-fg">Text (Foreground) Color:</label>
+                            <div class="picker-input-wrapper">
+                                <input type="color" id="contrast-fg" value="#ffffff" class="color-picker-sm" onchange="calculateContrast()">
+                                <input type="text" id="contrast-fg-text" value="#ffffff" class="form-control text-mono" oninput="calculateContrast()">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="contrast-bg">Background Color:</label>
+                            <div class="picker-input-wrapper">
+                                <input type="color" id="contrast-bg" value="#0f172a" class="color-picker-sm" onchange="calculateContrast()">
+                                <input type="text" id="contrast-bg-text" value="#0f172a" class="form-control text-mono" oninput="calculateContrast()">
+                            </div>
+                        </div>
+                        <button class="btn btn-outline" onclick="swapContrastColors()">🔄 Swap Colors</button>
+                    </div>
+
+                    <div class="contrast-results">
+                        <div id="contrast-preview-card" class="contrast-preview-card">
+                            <h3>Preview Heading text</h3>
+                            <p>The quick brown fox jumps over the lazy dog. Sample paragraph text for accessibility evaluation.</p>
+                        </div>
+
+                        <div class="contrast-stats mt-1">
+                            <div class="stat-box">
+                                <span class="stat-label">Contrast Ratio</span>
+                                <span class="stat-value text-gradient" id="contrast-ratio-val">15.8:1</span>
+                            </div>
+                            <div class="stat-box">
+                                <span class="stat-label">Normal Text (AA)</span>
+                                <span class="badge badge-success" id="badge-normal-aa">PASS</span>
+                            </div>
+                            <div class="stat-box">
+                                <span class="stat-label">Large Text (AAA)</span>
+                                <span class="badge badge-success" id="badge-large-aaa">PASS</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="image-tools" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Image Color Extractor & Eyedropper</h2>
+                    <p>Extract dominant color palettes directly from any image in your browser.</p>
+                </div>
+
+                <div class="glass-card tool-container">
+                    <div class="privacy-note">
+                        🔒 <strong>Privacy Assurance:</strong> Your image is processed locally inside your browser runtime via HTML5 Canvas. No image data is uploaded to any remote server.
+                    </div>
+
+                    <div class="form-group mt-1">
+                        <label for="img-file-input">Upload Image File:</label>
+                        <input type="file" id="img-file-input" accept="image/*" class="form-control">
+                    </div>
+
+                    <div class="grid grid-2 mt-2">
+                        <div class="image-canvas-wrapper">
+                            <canvas id="image-canvas" class="image-canvas"></canvas>
+                            <p class="help-text">Click anywhere on the uploaded image to inspect a specific pixel color.</p>
+                        </div>
+                        <div class="image-results">
+                            <h4>Inspected Pixel Color</h4>
+                            <div class="picker-input-wrapper">
+                                <div id="picked-pixel-box" class="color-swatch-sm"></div>
+                                <span id="picked-pixel-code" class="text-mono">#------</span>
+                            </div>
+
+                            <h4 class="mt-2">Dominant Extracted Palette</h4>
+                            <div id="extracted-palette-grid" class="palette-display-grid">
+                                <p class="text-muted">Upload an image to extract palette.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="more-tools" class="section bg-surface">
+            <div class="container">
+                <div class="section-header">
+                    <h2>More Interactive Color Tools</h2>
+                    <p>Explore tools for color blending, color blindness simulation, CSS variables, and saved favorites.</p>
+                </div>
+
+                <div class="grid grid-3" id="tools-directory-grid">
+                    <div class="card tool-card" data-category="generator mixer">
+                        <div class="card-icon">🧪</div>
+                        <h3>Color Mixer</h3>
+                        <p>Blend two colors together across progressive step percentages.</p>
+                        <div class="mixer-inputs mt-1">
+                            <input type="color" id="mix-c1" value="#ff0000" class="color-picker-sm" onchange="mixColors()">
+                            <span>+</span>
+                            <input type="color" id="mix-c2" value="#0000ff" class="color-picker-sm" onchange="mixColors()">
+                        </div>
+                        <div id="mixer-output-grid" class="shades-grid mt-1"></div>
+                    </div>
+
+                    <div class="card tool-card" data-category="accessibility simulator">
+                        <div class="card-icon">👁️</div>
+                        <h3>Color Blindness Filter</h3>
+                        <p>Simulate how a target color is perceived under different color vision deficiencies.</p>
+                        <div class="form-group mt-1">
+                            <input type="color" id="cb-input" value="#10b981" class="color-picker-sm" onchange="simulateColorBlindness()">
+                        </div>
+                        <div id="cb-results-list" class="cb-list"></div>
+                    </div>
+
+                    <div class="card tool-card" data-category="developer css">
+                        <div class="card-icon">💻</div>
+                        <h3>CSS Variables Generator</h3>
+                        <p>Generate ready-to-use CSS <code>:root</code> custom properties for system theme architecture.</p>
+                        <button class="btn btn-sm btn-primary mt-1" onclick="generateCssVariables()">Generate Theme Variables</button>
+                        <div class="css-output-box mt-1">
+                            <code id="css-var-code" class="text-mono">:root { --primary: #8b5cf6; }</code>
+                            <button class="btn-copy" onclick="copyText('css-var-code')">Copy</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card tool-container mt-3">
+                    <h3>⭐ Your Saved Favorite Colors</h3>
+                    <div id="favorites-grid" class="shades-grid mt-1">
+                        <p class="text-muted">No favorites saved yet. Click 'Save Favorite' in the Color Picker tool.</p>
+                    </div>
+                    <button class="btn btn-sm btn-outline mt-1" onclick="clearFavorites()">Clear Favorites</button>
+                </div>
+            </div>
+        </section>
+
+        <div class="container my-2">
+            <div class="ad-placeholder">
+                <span class="ad-label">ADVERTISEMENT PLACEHOLDER</span>
+            </div>
+        </div>
+
+        <section class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Why Choose MP Color Lab?</h2>
+                    <p>Designed to deliver high performance color workflows without friction.</p>
+                </div>
+
+                <div class="grid grid-3">
+                    <div class="card">
+                        <div class="card-icon">⚡</div>
+                        <h3>100% Browser-Based</h3>
+                        <p>Calculations execute instantly using client-side Web APIs and JavaScript without network latency.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">🔒</div>
+                        <h3>Privacy Guaranteed</h3>
+                        <p>Uploaded images for palette extraction remain strictly inside your browser frame.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">📱</div>
+                        <h3>Fully Responsive</h3>
+                        <p>Seamless touch support across smartphones, tablets, and desktop workstations.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="faq" class="section bg-surface">
+            <div class="container max-w-md">
+                <div class="section-header">
+                    <h2>Frequently Asked Questions</h2>
+                    <p>Learn more about MP Color Lab utility features.</p>
+                </div>
+
+                <div class="accordion">
+                    <div class="accordion-item">
+                        <button class="accordion-header">What is MP Color Lab? <span>+</span></button>
+                        <div class="accordion-body">
+                            MP Color Lab is a suite of web browser color tools created by MP Digital Hub for designers, software engineers, and digital artists.
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <button class="accordion-header">Is MP Color Lab free to use? <span>+</span></button>
+                        <div class="accordion-body">
+                            Yes, all tools—including palette generation, image color extraction, and contrast testing—are completely free with no user registration.
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <button class="accordion-header">Are my uploaded images sent to any server? <span>+</span></button>
+                        <div class="accordion-body">
+                            No. Image extraction operations run locally via the HTML5 Canvas API inside your browser instance.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="section">
+            <div class="container max-w-md">
+                <div class="section-header">
+                    <h2>About MP Color Lab</h2>
+                    <p>An initiative by <strong>MP Digital Hub</strong> focused on providing productivity platforms for the web ecosystem.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="section bg-surface">
+            <div class="container max-w-md">
+                <div class="section-header">
+                    <h2>Contact & Feedback</h2>
+                    <p>Have suggestions or feature requests? Connect with our team directly through our social channels.</p>
+                </div>
+                <div class="btn-group justify-center">
+                    <a href="https://wa.me/919131053539" target="_blank" class="btn btn-primary">Chat on WhatsApp</a>
+                    <a href="https://www.instagram.com/mpdigitalhub" target="_blank" class="btn btn-secondary">Follow on Instagram</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div class="floating-social-container">
+        <a href="https://www.instagram.com/mpdigitalhub" target="_blank" class="float-btn float-ig" aria-label="Follow us on Instagram">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            <span class="tooltip">Follow on Instagram</span>
+        </a>
+        <a href="https://wa.me/919131053539" target="_blank" class="float-btn float-wa" aria-label="Chat with us on WhatsApp">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+            <span class="tooltip">Chat on WhatsApp</span>
+        </a>
+    </div>
+
+    <div id="toast-container" class="toast-container"></div>
+
+    <footer class="footer">
+        <div class="container footer-grid">
+            <div class="footer-col">
+                <div class="brand-name">MP Color Lab</div>
+                <p class="text-muted">Explore. Create. Convert. Master Colors.</p>
+                <p class="text-muted small mt-1">A project by <strong>MP Digital Hub</strong>.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#picker">Color Picker</a></li>
+                    <li><a href="#converter">Color Converter</a></li>
+                    <li><a href="#palettes">Palette Generator</a></li>
+                    <li><a href="#gradients">Gradient Tool</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Legal & Info</h4>
+                <ul>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="javascript:void(0)" onclick="alert('Privacy Policy: All processing occurs locally on client browsers.')">Privacy Policy</a></li>
+                    <li><a href="javascript:void(0)" onclick="alert('Terms: Free tool provided as-is without remote storage.')">Terms & Conditions</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <p>&copy; 2026 MP Color Lab. All rights reserved. Built for GitHub Pages.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
