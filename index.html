@@ -1,1088 +1,256 @@
-<!DOCTYPE html>
-<html lang="en" class="dark">
+from pathlib import Path
+
+out = Path("/mnt/data/mp-color-lab")
+out.mkdir(exist_ok=True)
+
+index_html = r'''<!doctype html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MP Color Lab – Free Online Color Tools, Picker, Converter & Palette Generator</title>
-    <meta name="description" content="MP Color Lab offers free online color tools including color picker, HEX RGB converter, palette generator, gradient generator, contrast checker and image color extractor.">
-    <meta name="keywords" content="color picker, hex to rgb, color palette generator, css gradient generator, contrast checker, image color extractor, mp color lab, mp digital hub">
-    <meta name="author" content="MP Digital Hub">
-    <link rel="canonical" href="https://mpcolorlab.online/">
-
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' stop-color='%238b5cf6'/><stop offset='50%' stop-color='%233b82f6'/><stop offset='100%' stop-color='%2306b6d4'/></linearGradient></defs><path d='M30,15 L70,15 L60,45 L78,75 C83,83 77,90 68,90 L32,90 C23,90 17,83 22,75 L40,45 Z' fill='none' stroke='url(%23g)' stroke-width='8' stroke-linejoin='round'/><circle cx='50' cy='70' r='10' fill='%23ec4899'/><circle cx='40' cy='80' r='5' fill='%23eab308'/><circle cx='60' cy='78' r='6' fill='%2310b981'/></svg>">
-
-    <style>
-        /* CSS DESIGN SYSTEM & RESPONSIVE STYLES */
-        :root {
-            --primary: #8b5cf6;
-            --primary-hover: #7c3aed;
-            --secondary: #3b82f6;
-            --accent: #ec4899;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --danger: #ef4444;
-            --bg-main: #0f172a;
-            --bg-surface: #1e293b;
-            --bg-glass: rgba(30, 41, 59, 0.7);
-            --border-color: rgba(255, 255, 255, 0.1);
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --radius-sm: 8px;
-            --radius-md: 12px;
-            --radius-lg: 20px;
-            --shadow-md: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
-            --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-        }
-
-        html.light {
-            --bg-main: #f8fafc;
-            --bg-surface: #ffffff;
-            --bg-glass: rgba(255, 255, 255, 0.8);
-            --border-color: rgba(0, 0, 0, 0.1);
-            --text-main: #0f172a;
-            --text-muted: #64748b;
-            --shadow-md: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
-        }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: var(--font-sans); background-color: var(--bg-main); color: var(--text-main); line-height: 1.6; transition: background-color 0.3s ease, color 0.3s ease; overflow-x: hidden; }
-
-        .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
-        .max-w-md { max-width: 800px; }
-        .section { padding: 4rem 0; }
-        .bg-surface { background-color: var(--bg-surface); }
-        .mt-1 { margin-top: 0.75rem; }
-        .mt-2 { margin-top: 1.5rem; }
-        .mt-3 { margin-top: 2.5rem; }
-        .my-2 { margin-top: 2rem; margin-bottom: 2rem; }
-        .text-mono { font-family: var(--font-mono); }
-        .text-muted { color: var(--text-muted); }
-        .small { font-size: 0.875rem; }
-        .justify-center { justify-content: center; }
-
-        .text-gradient {
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .grid { display: grid; gap: 1.5rem; }
-        .grid-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
-        .grid-3 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
-
-        .glass-card, .card {
-            background: var(--bg-glass);
-            backdrop-filter: blur(12px);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-md);
-            padding: 1.5rem;
-            box-shadow: var(--shadow-md);
-        }
-
-        .header {
-            position: sticky; top: 0; z-index: 100;
-            background: var(--bg-glass); backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--border-color);
-        }
-        .header-container { display: flex; align-items: center; justify-content: space-between; height: 70px; }
-        .logo { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; color: var(--text-main); }
-        .brand-name { font-weight: 800; font-size: 1.25rem; display: block; }
-        .brand-sub { font-size: 0.7rem; color: var(--text-muted); display: block; }
-
-        .nav-desktop { display: flex; gap: 1.25rem; }
-        .nav-link, .mobile-nav-link { color: var(--text-muted); text-decoration: none; font-weight: 500; font-size: 0.95rem; transition: color 0.2s; }
-        .nav-link:hover, .mobile-nav-link:hover { color: var(--primary); }
-
-        .header-actions { display: flex; align-items: center; gap: 1rem; }
-        .btn-icon { background: transparent; border: 1px solid var(--border-color); color: var(--text-main); padding: 0.5rem; border-radius: var(--radius-sm); cursor: pointer; }
-
-        html.dark .icon-sun { display: inline; } html.dark .icon-moon { display: none; }
-        html.light .icon-sun { display: none; } html.light .icon-moon { display: inline; }
-
-        .hamburger-btn { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; }
-        .hamburger-btn span { width: 24px; height: 2px; background-color: var(--text-main); }
-        .mobile-menu { display: none; flex-direction: column; background: var(--bg-surface); padding: 1rem 1.5rem; border-bottom: 1px solid var(--border-color); }
-        .mobile-menu.active { display: flex; }
-
-        .btn { display: inline-flex; align-items: center; justify-content: center; padding: 0.625rem 1.25rem; border-radius: var(--radius-sm); font-weight: 600; cursor: pointer; text-decoration: none; border: none; transition: all 0.2s; }
-        .btn-primary { background: var(--primary); color: #ffffff; } .btn-primary:hover { background: var(--primary-hover); }
-        .btn-secondary { background: var(--secondary); color: #ffffff; }
-        .btn-outline { background: transparent; border: 1px solid var(--border-color); color: var(--text-main); }
-        .btn-sm { padding: 0.35rem 0.75rem; font-size: 0.85rem; }
-        .btn-lg { padding: 0.85rem 1.75rem; font-size: 1.05rem; }
-        .btn-copy { background: var(--border-color); border: none; color: var(--text-main); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem; cursor: pointer; }
-        .btn-group { display: flex; gap: 0.75rem; flex-wrap: wrap; }
-
-        .hero-section { padding: 5rem 0 3rem; }
-        .hero-container { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 2rem; align-items: center; }
-        .badge { background: rgba(139, 92, 246, 0.15); color: var(--primary); padding: 0.35rem 0.85rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600; }
-        .hero-title { font-size: 3rem; line-height: 1.15; margin: 1rem 0; }
-        .hero-subtitle { color: var(--text-muted); font-size: 1.15rem; margin-bottom: 2rem; }
-        .hero-cta-group { display: flex; gap: 1rem; }
-
-        .visual-card { text-align: center; position: relative; }
-        .visual-gradient-box { height: 180px; border-radius: var(--radius-sm); background: linear-gradient(135deg, #8b5cf6, #ec4899); }
-        .visual-info { display: flex; justify-content: center; gap: 1rem; margin-top: 1rem; }
-        .v-badge { background: var(--bg-main); padding: 0.5rem 1rem; border-radius: 20px; font-family: var(--font-mono); font-size: 0.85rem; }
-
-        .form-group { margin-bottom: 1rem; display: flex; flex-direction: column; gap: 0.35rem; }
-        .form-control { background: var(--bg-main); border: 1px solid var(--border-color); color: var(--text-main); padding: 0.65rem; border-radius: var(--radius-sm); outline: none; }
-        .color-picker-large { width: 60px; height: 50px; border: none; background: none; cursor: pointer; }
-        .color-picker-sm { width: 40px; height: 40px; border: none; background: none; cursor: pointer; }
-        .picker-input-wrapper { display: flex; align-items: center; gap: 0.75rem; }
-
-        .color-preview-box { height: 120px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; margin-top: 1rem; background-color: #8b5cf6; }
-        .preview-text { background: rgba(0, 0, 0, 0.4); color: #ffffff; padding: 0.35rem 0.85rem; border-radius: 20px; font-family: var(--font-mono); }
-        .color-values-grid { display: grid; gap: 0.75rem; }
-        .value-card { background: var(--bg-main); padding: 0.75rem 1rem; border-radius: var(--radius-sm); display: flex; justify-content: space-between; align-items: center; }
-        .val-label { font-size: 0.8rem; color: var(--text-muted); font-weight: 700; }
-        .color-bar-preview { height: 20px; border-radius: var(--radius-sm); transition: background-color 0.2s; }
-
-        .palette-display-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 0.75rem; }
-        .palette-card { border-radius: var(--radius-sm); overflow: hidden; background: var(--bg-main); text-align: center; }
-        .palette-swatch { height: 80px; }
-        .palette-meta { padding: 0.5rem; font-size: 0.75rem; }
-
-        .shades-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 0.5rem; }
-        .shade-box { height: 60px; border-radius: 6px; display: flex; align-items: flex-end; padding: 4px; font-size: 0.65rem; font-family: var(--font-mono); cursor: pointer; }
-
-        .gradient-display-box { height: 200px; border-radius: var(--radius-sm); background: linear-gradient(135deg, #ec4899, #8b5cf6); }
-        .css-output-box { background: var(--bg-main); padding: 0.75rem; border-radius: var(--radius-sm); display: flex; justify-content: space-between; align-items: center; word-break: break-all; }
-
-        .contrast-preview-card { padding: 1.5rem; border-radius: var(--radius-sm); background: #0f172a; color: #ffffff; }
-        .contrast-stats { display: flex; gap: 1rem; flex-wrap: wrap; }
-        .stat-box { background: var(--bg-main); padding: 0.75rem; border-radius: var(--radius-sm); flex: 1; min-width: 120px; }
-        .badge-success { background: var(--success); color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; }
-        .badge-fail { background: var(--danger); color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; }
-
-        .image-canvas { max-width: 100%; height: auto; border-radius: var(--radius-sm); background: var(--bg-main); }
-        .color-swatch-sm { width: 30px; height: 30px; border-radius: 4px; border: 1px solid var(--border-color); }
-
-        .search-box { display: flex; align-items: center; gap: 0.75rem; }
-        .search-box input { flex: 1; border: none; background: transparent; color: var(--text-main); outline: none; }
-
-        .ad-placeholder { border: 1px dashed var(--border-color); border-radius: var(--radius-sm); padding: 1rem; text-align: center; background: rgba(0, 0, 0, 0.05); }
-        .ad-label { font-size: 0.7rem; color: var(--text-muted); letter-spacing: 1px; }
-
-        .privacy-note { background: rgba(16, 185, 129, 0.1); border: 1px solid var(--success); padding: 0.75rem; border-radius: var(--radius-sm); font-size: 0.85rem; }
-
-        .accordion-item { border-bottom: 1px solid var(--border-color); }
-        .accordion-header { width: 100%; padding: 1rem 0; background: none; border: none; color: var(--text-main); font-weight: 600; text-align: left; display: flex; justify-content: space-between; cursor: pointer; }
-        .accordion-body { padding-bottom: 1rem; color: var(--text-muted); display: none; }
-        .accordion-item.active .accordion-body { display: block; }
-
-        .toast-container { position: fixed; bottom: 20px; left: 20px; z-index: 1000; display: flex; flex-direction: column; gap: 0.5rem; }
-        .toast { background: var(--bg-surface); color: var(--text-main); border-left: 4px solid var(--primary); padding: 0.75rem 1.25rem; border-radius: 4px; box-shadow: var(--shadow-md); font-size: 0.85rem; }
-
-        .floating-social-container { position: fixed; bottom: 20px; right: 20px; z-index: 99; display: flex; flex-direction: column; gap: 0.75rem; }
-        .float-btn { width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; box-shadow: var(--shadow-md); position: relative; text-decoration: none; }
-        .float-ig { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%); }
-        .float-wa { background-color: #25d366; }
-        .float-btn .tooltip { position: absolute; right: 58px; background: rgba(0,0,0,0.8); color: #fff; padding: 4px 8px; border-radius: 4px; font-size: 0.75rem; white-space: nowrap; display: none; }
-        .float-btn:hover .tooltip { display: block; }
-
-        .footer { background: var(--bg-surface); border-top: 1px solid var(--border-color); padding-top: 3rem; margin-top: 4rem; }
-        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; padding-bottom: 2rem; }
-        .footer-col h4 { margin-bottom: 1rem; }
-        .footer-col ul { list-style: none; }
-        .footer-col li { margin-bottom: 0.5rem; }
-        .footer-col a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; }
-        .footer-col a:hover { color: var(--primary); }
-        .footer-bottom { border-top: 1px solid var(--border-color); padding: 1.5rem 0; text-align: center; color: var(--text-muted); font-size: 0.85rem; }
-
-        @media (max-width: 900px) {
-            .hero-container { grid-template-columns: 1fr; text-align: center; }
-            .hero-cta-group { justify-content: center; }
-            .nav-desktop, .hide-mobile { display: none; }
-            .hamburger-btn { display: flex; }
-        }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>MP Color Lab – Free Online Color Tools, Picker, Converter & Palette Generator</title>
+  <meta name="description" content="MP Color Lab offers free online color tools including color picker, HEX RGB converter, palette generator, gradient generator, contrast checker and image color extractor.">
+  <meta name="keywords" content="color picker, HEX RGB converter, color palette generator, CSS gradient generator, contrast checker, image color extractor">
+  <meta name="author" content="MP Digital Hub">
+  <meta property="og:title" content="MP Color Lab – Free Online Color Tools">
+  <meta property="og:description" content="Pick, convert, generate, compare and create beautiful colors — all in one place.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://mpcolorlab.online/">
+  <link rel="canonical" href="https://mpcolorlab.online/">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%236c63ff'/%3E%3Cstop offset='.5' stop-color='%2300c2ff'/%3E%3Cstop offset='1' stop-color='%23ff4ecd'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='24' fill='%230b1020'/%3E%3Cpath d='M33 24h34l-7 23a22 22 0 1 1-20 0z' fill='url(%23g)'/%3E%3Cpath d='M38 20h24' stroke='white' stroke-width='7' stroke-linecap='round'/%3E%3Ctext x='50' y='61' text-anchor='middle' fill='white' font-size='18' font-family='Arial' font-weight='700'%3EMP%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<div class="progress" id="progress"></div>
 
-    <header class="header">
-        <div class="container header-container">
-            <a href="#home" class="logo">
-                <svg viewBox="0 0 100 100" width="40" height="40">
-                    <defs>
-                        <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stop-color="#8b5cf6"/>
-                            <stop offset="50%" stop-color="#3b82f6"/>
-                            <stop offset="100%" stop-color="#06b6d4"/>
-                        </linearGradient>
-                    </defs>
-                    <path d="M30,15 L70,15 L60,45 L78,75 C83,83 77,90 68,90 L32,90 C23,90 17,83 22,75 L40,45 Z" fill="none" stroke="url(#logoGrad)" stroke-width="8" stroke-linejoin="round"/>
-                    <circle cx="50" cy="72" r="8" fill="#ec4899"/>
-                    <circle cx="38" cy="80" r="5" fill="#eab308"/>
-                    <circle cx="62" cy="78" r="6" fill="#10b981"/>
-                    <text x="50" y="38" font-family="sans-serif" font-weight="900" font-size="16" fill="#ffffff" text-anchor="middle">MP</text>
-                </svg>
-                <div class="logo-text">
-                    <span class="brand-name">MP Color Lab</span>
-                    <span class="brand-sub">by MP Digital Hub</span>
-                </div>
-            </a>
+<header class="header">
+  <a class="brand" href="#home" aria-label="MP Color Lab home">
+    <span class="logo" aria-hidden="true">
+      <svg viewBox="0 0 64 64"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#6c63ff"/><stop offset=".5" stop-color="#00c2ff"/><stop offset="1" stop-color="#ff4ecd"/></linearGradient></defs><path d="M20 10h24l-5 19a15 15 0 1 1-14 0z" fill="url(#lg)"/><path d="M25 8h14" stroke="currentColor" stroke-width="5" stroke-linecap="round"/><text x="32" y="36" text-anchor="middle" fill="white" font-size="11" font-family="Arial" font-weight="800">MP</text></svg>
+    </span>
+    <span><strong>MP Color Lab</strong><small>by MP Digital Hub</small></span>
+  </a>
+  <nav id="nav">
+    <a href="#home">Home</a><a href="#picker">Color Picker</a><a href="#converter">Converters</a><a href="#palettes">Palettes</a><a href="#gradient">Gradients</a><a href="#image-tools">Image Colors</a><a href="#tools">More Tools</a>
+  </nav>
+  <div class="header-actions"><button class="icon-btn" id="themeBtn" title="Toggle dark mode" aria-label="Toggle dark mode">☾</button><a class="btn btn-primary nav-cta" href="#tools">Explore Tools</a><button class="menu-btn" id="menuBtn" aria-label="Open menu">☰</button></div>
+</header>
 
-            <nav class="nav-desktop">
-                <a href="#home" class="nav-link">Home</a>
-                <a href="#picker" class="nav-link">Color Picker</a>
-                <a href="#converter" class="nav-link">Converters</a>
-                <a href="#palettes" class="nav-link">Palettes</a>
-                <a href="#gradients" class="nav-link">Gradients</a>
-                <a href="#image-tools" class="nav-link">Image Colors</a>
-                <a href="#contrast" class="nav-link">Contrast</a>
-                <a href="#more-tools" class="nav-link">More Tools</a>
-            </nav>
-
-            <div class="header-actions">
-                <button id="theme-toggle" class="btn-icon" aria-label="Toggle Theme">
-                    <span class="icon-sun">☀️</span>
-                    <span class="icon-moon">🌙</span>
-                </button>
-                <a href="#more-tools" class="btn btn-primary hide-mobile">Explore Tools</a>
-                <button id="hamburger" class="hamburger-btn" aria-label="Toggle Navigation">
-                    <span></span><span></span><span></span>
-                </button>
-            </div>
-        </div>
-
-        <div id="mobile-menu" class="mobile-menu">
-            <a href="#home" class="mobile-nav-link">Home</a>
-            <a href="#picker" class="mobile-nav-link">Color Picker</a>
-            <a href="#converter" class="mobile-nav-link">Converters</a>
-            <a href="#palettes" class="mobile-nav-link">Palettes</a>
-            <a href="#gradients" class="mobile-nav-link">Gradients</a>
-            <a href="#image-tools" class="mobile-nav-link">Image Colors</a>
-            <a href="#contrast" class="mobile-nav-link">Contrast Checker</a>
-            <a href="#more-tools" class="mobile-nav-link">More Tools</a>
-            <a href="#about" class="mobile-nav-link">About</a>
-            <a href="#contact" class="mobile-nav-link">Contact</a>
-        </div>
-    </header>
-
-    <main id="home">
-        <section class="hero-section">
-            <div class="container hero-container">
-                <div class="hero-content">
-                    <span class="badge">100% Free • Browser-Based • Fast Engine</span>
-                    <h1 class="hero-title">Your Complete <span class="text-gradient">Online Color</span> Toolkit</h1>
-                    <p class="hero-subtitle">Pick, convert, generate, compare, and master beautiful colors — all in one place. Engineered for designers and developers.</p>
-                    <div class="hero-cta-group">
-                        <a href="#more-tools" class="btn btn-primary btn-lg">Explore Color Tools</a>
-                        <a href="#picker" class="btn btn-secondary btn-lg">Pick a Color</a>
-                    </div>
-                </div>
-
-                <div class="hero-visual">
-                    <div class="glass-card visual-card">
-                        <div class="visual-gradient-box" id="hero-gradient-preview"></div>
-                        <div class="visual-info">
-                            <div class="v-badge"><span id="hero-hex-label">#8B5CF6</span></div>
-                            <div class="v-badge"><span id="hero-rgb-label">rgb(139, 92, 246)</span></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="search-section">
-            <div class="container">
-                <div class="search-box glass-card">
-                    <span class="search-icon">🔍</span>
-                    <input type="text" id="tool-search-input" placeholder="Search color tools (gradient, palette, contrast, hex, image)...">
-                    <button class="btn btn-sm btn-primary" onclick="clearToolSearch()">Clear</button>
-                </div>
-            </div>
-        </section>
-
-        <div class="container my-2">
-            <div class="ad-placeholder">
-                <span class="ad-label">ADVERTISEMENT PLACEHOLDER</span>
-            </div>
-        </div>
-
-        <section id="picker" class="section">
-            <div class="container">
-                <div class="section-header">
-                    <h2>Advanced Color Picker & Format Finder</h2>
-                    <p>Select any color to instantly analyze HEX, RGB, HSL, HSV, CMYK, and CSS string values.</p>
-                </div>
-
-                <div class="grid grid-2 glass-card tool-container">
-                    <div class="picker-controls">
-                        <div class="form-group">
-                            <label for="main-native-picker">Choose Color:</label>
-                            <div class="picker-input-wrapper">
-                                <input type="color" id="main-native-picker" value="#8b5cf6" class="color-picker-large">
-                                <input type="text" id="main-hex-input" value="#8b5cf6" class="form-control text-mono" style="font-size: 1.25rem;">
-                            </div>
-                        </div>
-
-                        <div class="btn-group">
-                            <button class="btn btn-secondary" onclick="setRandomColor()">🎲 Random Color</button>
-                            <button class="btn btn-outline" onclick="saveCurrentToFavorites()">⭐ Save Favorite</button>
-                        </div>
-
-                        <div class="color-preview-box" id="main-color-display">
-                            <span class="preview-text" id="main-preview-text">#8B5CF6</span>
-                        </div>
-                    </div>
-
-                    <div class="color-values-grid">
-                        <div class="value-card"><span class="val-label">HEX</span><span class="val-code text-mono" id="val-hex">#8b5cf6</span><button class="btn-copy" onclick="copyText('val-hex')">Copy</button></div>
-                        <div class="value-card"><span class="val-label">RGB</span><span class="val-code text-mono" id="val-rgb">rgb(139, 92, 246)</span><button class="btn-copy" onclick="copyText('val-rgb')">Copy</button></div>
-                        <div class="value-card"><span class="val-label">HSL</span><span class="val-code text-mono" id="val-hsl">hsl(258, 90%, 66%)</span><button class="btn-copy" onclick="copyText('val-hsl')">Copy</button></div>
-                        <div class="value-card"><span class="val-label">HSV / HSB</span><span class="val-code text-mono" id="val-hsv">hsv(258, 63%, 96%)</span><button class="btn-copy" onclick="copyText('val-hsv')">Copy</button></div>
-                        <div class="value-card"><span class="val-label">CMYK</span><span class="val-code text-mono" id="val-cmyk">cmyk(43%, 63%, 0%, 4%)</span><button class="btn-copy" onclick="copyText('val-cmyk')">Copy</button></div>
-                        <div class="value-card"><span class="val-label">Color Name</span><span class="val-code text-mono" id="val-name">Medium Purple</span><button class="btn-copy" onclick="copyText('val-name')">Copy</button></div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="converter" class="section bg-surface">
-            <div class="container">
-                <div class="section-header">
-                    <h2>Universal Color Format Converter</h2>
-                    <p>Convert seamlessly across primary color format systems.</p>
-                </div>
-
-                <div class="glass-card tool-container">
-                    <div class="grid grid-3">
-                        <div class="form-group"><label>HEX Input</label><input type="text" id="conv-hex" class="form-control text-mono" placeholder="#8B5CF6"></div>
-                        <div class="form-group"><label>RGB Input</label><input type="text" id="conv-rgb" class="form-control text-mono" placeholder="rgb(139, 92, 246)"></div>
-                        <div class="form-group"><label>HSL Input</label><input type="text" id="conv-hsl" class="form-control text-mono" placeholder="hsl(258, 90%, 66%)"></div>
-                    </div>
-                    <div id="conv-error" style="color:var(--danger);" class="mt-1"></div>
-                    <div class="color-bar-preview mt-2" id="conv-preview-bar"></div>
-                </div>
-            </div>
-        </section>
-
-        <section id="palettes" class="section">
-            <div class="container">
-                <div class="section-header">
-                    <h2>Harmony & Color Palette Generator</h2>
-                    <p>Build balanced color harmonies automatically based on mathematical rules.</p>
-                </div>
-
-                <div class="glass-card tool-container">
-                    <div class="picker-controls inline-flex" style="display:flex; gap:1rem; align-items:center; flex-wrap:wrap;">
-                        <label>Base Color:</label>
-                        <input type="color" id="palette-base-color" value="#3b82f6" class="color-picker-sm">
-                        <select id="palette-mode" class="form-control" onchange="generatePalette()">
-                            <option value="complementary">Complementary</option>
-                            <option value="analogous">Analogous</option>
-                            <option value="triadic">Triadic</option>
-                            <option value="split">Split Complementary</option>
-                            <option value="tetradic">Tetradic (Square)</option>
-                            <option value="monochromatic">Monochromatic</option>
-                        </select>
-                        <button class="btn btn-primary" onclick="generatePalette()">Generate Scheme</button>
-                        <button class="btn btn-secondary" onclick="exportPaletteJSON()">Export JSON</button>
-                    </div>
-
-                    <div id="palette-cards-container" class="palette-display-grid mt-2"></div>
-                </div>
-            </div>
-        </section>
-
-        <section id="shades" class="section bg-surface">
-            <div class="container">
-                <div class="section-header">
-                    <h2>Shades & Tints Generator</h2>
-                    <p>Produce light tints and dark shades scales for modern application UI systems.</p>
-                </div>
-
-                <div class="glass-card tool-container">
-                    <div class="picker-controls" style="display:flex; gap:1rem; align-items:center;">
-                        <label>Base Color:</label>
-                        <input type="color" id="shades-base-color" value="#06b6d4" class="color-picker-sm" onchange="generateShadesTints()">
-                        <input type="text" id="shades-hex-text" value="#06b6d4" class="form-control text-mono" style="max-width:140px;" oninput="generateShadesTints()">
-                    </div>
-
-                    <h4 class="mt-2">Lighter Tints</h4>
-                    <div id="tints-container" class="shades-grid mt-1"></div>
-
-                    <h4 class="mt-2">Darker Shades</h4>
-                    <div id="shades-container" class="shades-grid mt-1"></div>
-                </div>
-            </div>
-        </section>
-
-        <section id="gradients" class="section">
-            <div class="container">
-                <div class="section-header">
-                    <h2>CSS Gradient Generator</h2>
-                    <p>Design modern CSS gradients with interactive linear, radial, and conic modes.</p>
-                </div>
-
-                <div class="grid grid-2 glass-card tool-container">
-                    <div class="gradient-controls">
-                        <div class="form-group">
-                            <label>Gradient Type:</label>
-                            <select id="grad-type" class="form-control" onchange="updateGradient()">
-                                <option value="linear">Linear</option>
-                                <option value="radial">Radial</option>
-                                <option value="conic">Conic</option>
-                            </select>
-                        </div>
-                        <div class="form-group" id="angle-group">
-                            <label>Angle: <span id="grad-angle-val">135</span>°</label>
-                            <input type="range" id="grad-angle" min="0" max="360" value="135" class="form-control" oninput="updateGradient()">
-                        </div>
-
-                        <div class="grid grid-2">
-                            <div class="form-group">
-                                <label>Color 1:</label>
-                                <input type="color" id="grad-c1" value="#ec4899" class="color-picker-sm" onchange="updateGradient()">
-                            </div>
-                            <div class="form-group">
-                                <label>Color 2:</label>
-                                <input type="color" id="grad-c2" value="#8b5cf6" class="color-picker-sm" onchange="updateGradient()">
-                            </div>
-                        </div>
-
-                        <button class="btn btn-secondary mt-1" onclick="randomizeGradient()">🎲 Random Gradient</button>
-                    </div>
-
-                    <div class="gradient-preview-pane">
-                        <div id="gradient-box-display" class="gradient-display-box"></div>
-                        <div class="css-output-box mt-1">
-                            <code id="gradient-css-code" class="text-mono">background: linear-gradient(135deg, #ec4899, #8b5cf6);</code>
-                            <button class="btn-copy" onclick="copyText('gradient-css-code')">Copy CSS</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="contrast" class="section bg-surface">
-            <div class="container">
-                <div class="section-header">
-                    <h2>WCAG Contrast Checker</h2>
-                    <p>Test background and foreground text standard accessibility contrast ratios.</p>
-                </div>
-
-                <div class="grid grid-2 glass-card tool-container">
-                    <div class="contrast-inputs">
-                        <div class="form-group">
-                            <label>Text Color (Foreground):</label>
-                            <div class="picker-input-wrapper">
-                                <input type="color" id="contrast-fg" value="#ffffff" class="color-picker-sm" onchange="calculateContrast()">
-                                <input type="text" id="contrast-fg-text" value="#ffffff" class="form-control text-mono" oninput="calculateContrast()">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Background Color:</label>
-                            <div class="picker-input-wrapper">
-                                <input type="color" id="contrast-bg" value="#0f172a" class="color-picker-sm" onchange="calculateContrast()">
-                                <input type="text" id="contrast-bg-text" value="#0f172a" class="form-control text-mono" oninput="calculateContrast()">
-                            </div>
-                        </div>
-                        <button class="btn btn-outline" onclick="swapContrastColors()">🔄 Swap Colors</button>
-                    </div>
-
-                    <div class="contrast-results">
-                        <div id="contrast-preview-card" class="contrast-preview-card">
-                            <h3>Preview Heading Text</h3>
-                            <p>The quick brown fox jumps over the lazy dog. Web accessibility readability demonstration.</p>
-                        </div>
-
-                        <div class="contrast-stats mt-1">
-                            <div class="stat-box">
-                                <span class="stat-label">Ratio</span>
-                                <span class="stat-value text-gradient" id="contrast-ratio-val">15.8:1</span>
-                            </div>
-                            <div class="stat-box">
-                                <span class="stat-label">AA Normal</span>
-                                <span class="badge badge-success" id="badge-normal-aa">PASS</span>
-                            </div>
-                            <div class="stat-box">
-                                <span class="stat-label">AAA Large</span>
-                                <span class="badge badge-success" id="badge-large-aaa">PASS</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="image-tools" class="section">
-            <div class="container">
-                <div class="section-header">
-                    <h2>Image Color Extractor</h2>
-                    <p>Upload image assets locally to pick exact pixels or extract primary color palettes.</p>
-                </div>
-
-                <div class="glass-card tool-container">
-                    <div class="privacy-note">
-                        🔒 <strong>Privacy Assurance:</strong> Your uploaded images are processed completely in-browser via Canvas API. No images leave your local device.
-                    </div>
-
-                    <div class="form-group mt-1">
-                        <label>Upload Image Asset:</label>
-                        <input type="file" id="img-file-input" accept="image/*" class="form-control">
-                    </div>
-
-                    <div class="grid grid-2 mt-2">
-                        <div class="image-canvas-wrapper">
-                            <canvas id="image-canvas" class="image-canvas"></canvas>
-                        </div>
-                        <div class="image-results">
-                            <h4>Eyedropper Sampled Color</h4>
-                            <div class="picker-input-wrapper mt-1">
-                                <div id="picked-pixel-box" class="color-swatch-sm"></div>
-                                <span id="picked-pixel-code" class="text-mono">#------</span>
-                            </div>
-
-                            <h4 class="mt-2">Extracted Dominant Colors</h4>
-                            <div id="extracted-palette-grid" class="palette-display-grid mt-1">
-                                <p class="text-muted">Upload an image to render colors.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="more-tools" class="section bg-surface">
-            <div class="container">
-                <div class="section-header">
-                    <h2>More Interactive Tools</h2>
-                    <p>Blend custom ratios, emulate color vision types, and retrieve stored favorites.</p>
-                </div>
-
-                <div class="grid grid-3" id="tools-directory-grid">
-                    <div class="card tool-card">
-                        <h3>🧪 Color Mixer</h3>
-                        <p>Mix two colors across percentage blends.</p>
-                        <div class="mixer-inputs mt-1" style="display:flex; gap:0.5rem; align-items:center;">
-                            <input type="color" id="mix-c1" value="#ff0000" class="color-picker-sm" onchange="mixColors()">
-                            <span>+</span>
-                            <input type="color" id="mix-c2" value="#0000ff" class="color-picker-sm" onchange="mixColors()">
-                        </div>
-                        <div id="mixer-output-grid" class="shades-grid mt-1"></div>
-                    </div>
-
-                    <div class="card tool-card">
-                        <h3>👁️ Vision Simulator</h3>
-                        <p>Simulate color vision differences.</p>
-                        <div class="form-group mt-1">
-                            <input type="color" id="cb-input" value="#10b981" class="color-picker-sm" onchange="simulateColorBlindness()">
-                        </div>
-                        <div id="cb-results-list"></div>
-                    </div>
-
-                    <div class="card tool-card">
-                        <h3>💻 CSS Variables</h3>
-                        <p>Create CSS theme tokens instantly.</p>
-                        <button class="btn btn-sm btn-primary mt-1" onclick="generateCssVariables()">Generate Tokens</button>
-                        <div class="css-output-box mt-1">
-                            <code id="css-var-code" class="text-mono">:root { --primary: #8b5cf6; }</code>
-                            <button class="btn-copy" onclick="copyText('css-var-code')">Copy</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="glass-card tool-container mt-3">
-                    <h3>⭐ Stored Favorite Colors</h3>
-                    <div id="favorites-grid" class="shades-grid mt-1">
-                        <p class="text-muted">No stored favorites yet.</p>
-                    </div>
-                    <button class="btn btn-sm btn-outline mt-1" onclick="clearFavorites()">Clear Stored Favorites</button>
-                </div>
-            </div>
-        </section>
-
-        <section id="faq" class="section">
-            <div class="container max-w-md">
-                <div class="section-header">
-                    <h2>Frequently Asked Questions</h2>
-                </div>
-
-                <div class="accordion">
-                    <div class="accordion-item">
-                        <button class="accordion-header">What is MP Color Lab? <span>+</span></button>
-                        <div class="accordion-body">MP Color Lab is a complete online suite for color utilities built completely inside browser client technologies.</div>
-                    </div>
-                    <div class="accordion-item">
-                        <button class="accordion-header">Is MP Color Lab free? <span>+</span></button>
-                        <div class="accordion-body">Yes, 100% free with no backend account registration requirements.</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="about" class="section bg-surface">
-            <div class="container max-w-md">
-                <div class="section-header">
-                    <h2>About & Support</h2>
-                    <p>Engineered by <strong>MP Digital Hub</strong>.</p>
-                </div>
-                <div class="btn-group justify-center mt-2">
-                    <a href="https://wa.me/919131053539" target="_blank" class="btn btn-primary">WhatsApp Us (+91 9131053539)</a>
-                    <a href="https://www.instagram.com/mpdigitalhub" target="_blank" class="btn btn-secondary">Instagram (@mpdigitalhub)</a>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <div class="floating-social-container">
-        <a href="https://www.instagram.com/mpdigitalhub" target="_blank" class="float-btn float-ig" aria-label="Instagram">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-            <span class="tooltip">Follow on Instagram</span>
-        </a>
-        <a href="https://wa.me/919131053539" target="_blank" class="float-btn float-wa" aria-label="WhatsApp">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-            <span class="tooltip">Chat on WhatsApp</span>
-        </a>
+<main id="home">
+<section class="hero section">
+  <div class="hero-copy">
+    <span class="eyebrow">FREE • BROWSER-BASED • DESIGNER FRIENDLY</span>
+    <h1>Your Complete <span>Online Color Toolkit</span></h1>
+    <p>Pick, convert, generate, compare and create beautiful colors — all in one place.</p>
+    <div class="hero-actions"><a class="btn btn-primary" href="#tools">Explore Color Tools <span>→</span></a><a class="btn btn-ghost" href="#picker">Pick a Color</a></div>
+    <div class="hero-trust"><span>✓ No installation</span><span>✓ Client-side tools</span><span>✓ Free to use</span></div>
+  </div>
+  <div class="hero-art" aria-label="Interactive color showcase">
+    <div class="orb orb-a"></div><div class="orb orb-b"></div>
+    <div class="showcase-card">
+      <div class="showcase-top"><span class="mini-dot"></span><span>Color workspace</span><span>● ● ●</span></div>
+      <div class="showcase-gradient" id="heroGradient"></div>
+      <div class="showcase-values"><div><b id="heroHex">#6C63FF</b><small>HEX</small></div><div><b>108, 99, 255</b><small>RGB</small></div></div>
+      <div class="mini-palette"><i></i><i></i><i></i><i></i><i></i></div>
     </div>
+  </div>
+</section>
 
-    <div id="toast-container" class="toast-container"></div>
+<div class="ad-slot">Advertisement placeholder</div>
 
-    <footer class="footer">
-        <div class="container footer-grid">
-            <div class="footer-col">
-                <div class="brand-name">MP Color Lab</div>
-                <p class="text-muted">Explore. Create. Convert. Master Colors.</p>
-            </div>
-            <div class="footer-col">
-                <h4>Legal</h4>
-                <ul>
-                    <li><a href="javascript:void(0)" onclick="alert('Privacy Policy: All image processing runs locally in browser storage.')">Privacy Policy</a></li>
-                    <li><a href="javascript:void(0)" onclick="alert('Terms: Free browser utilities provided without external warranties.')">Terms of Use</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <div class="container">
-                <p>&copy; 2026 MP Color Lab. A project by MP Digital Hub.</p>
-            </div>
-        </div>
-    </footer>
+<section class="section" id="picker">
+  <div class="section-heading"><div><span class="eyebrow">QUICK TOOL</span><h2>Color Picker</h2><p>Choose a color and instantly get production-ready values.</p></div></div>
+  <div class="picker-grid tool-card">
+    <div class="picker-preview" id="quickPreview"><input type="color" id="quickColor" value="#6c63ff" aria-label="Choose color"></div>
+    <div class="value-grid">
+      <div class="value-box"><span>HEX</span><strong id="qHex">#6C63FF</strong><button data-copy="qHex">Copy</button></div>
+      <div class="value-box"><span>RGB</span><strong id="qRgb">rgb(108, 99, 255)</strong><button data-copy="qRgb">Copy</button></div>
+      <div class="value-box"><span>HSL</span><strong id="qHsl">hsl(243, 100%, 69%)</strong><button data-copy="qHsl">Copy</button></div>
+      <div class="value-box"><span>HSV</span><strong id="qHsv">hsv(243, 58%, 100%)</strong><button data-copy="qHsv">Copy</button></div>
+      <div class="value-box"><span>HSB</span><strong id="qHsb">hsv(243, 58%, 100%)</strong><button data-copy="qHsb">Copy</button></div>
+      <div class="value-box"><span>CMYK (approx.)</span><strong id="qCmyk">58%, 61%, 0%, 0%</strong><button data-copy="qCmyk">Copy</button></div>
+      <div class="quick-actions"><button class="btn btn-primary" id="randomQuick">Random Color</button><button class="btn btn-ghost" id="resetQuick">Reset</button></div>
+    </div>
+  </div>
+</section>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            initTheme();
-            initNavigation();
-            initColorPicker();
-            initUniversalConverter();
-            generatePalette();
-            generateShadesTints();
-            updateGradient();
-            calculateContrast();
-            initImageTools();
-            mixColors();
-            simulateColorBlindness();
-            initSearchFilter();
-            initAccordion();
-            loadFavorites();
-        });
+<section class="section" id="converter">
+  <div class="section-heading"><div><span class="eyebrow">CONVERT ANY FORMAT</span><h2>Universal Color Converter</h2><p>Enter HEX, RGB, HSL or HSV and get every useful format.</p></div></div>
+  <div class="converter-layout tool-card">
+    <div class="converter-inputs">
+      <label>Input format<select id="inputFormat"><option>HEX</option><option>RGB</option><option>HSL</option><option>HSV</option></select></label>
+      <label>Color value<input id="converterInput" value="#FF5733" placeholder="#FF5733"></label>
+      <button class="btn btn-primary" id="convertBtn">Convert Color</button>
+      <p class="error" id="convertError"></p>
+    </div>
+    <div class="converter-results" id="converterResults"></div>
+  </div>
+</section>
 
-        function initTheme() {
-            const toggleBtn = document.getElementById('theme-toggle');
-            const savedTheme = localStorage.getItem('mp_color_theme') || 'dark';
-            document.documentElement.className = savedTheme;
-            toggleBtn.addEventListener('click', () => {
-                const currentTheme = document.documentElement.className;
-                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-                document.documentElement.className = newTheme;
-                localStorage.setItem('mp_color_theme', newTheme);
-            });
-        }
+<section class="section" id="palettes">
+  <div class="section-heading"><div><span class="eyebrow">CREATE COMBINATIONS</span><h2>Color Palette Generator</h2><p>Build harmonious palettes from one base color.</p></div></div>
+  <div class="tool-card">
+    <div class="tool-toolbar"><label>Base color <input type="color" id="paletteBase" value="#6c63ff"></label><button class="btn btn-primary" id="generatePalette">Generate New Palette</button><button class="btn btn-ghost" id="randomPalette">Random Palette</button><button class="btn btn-ghost" id="copyPalette">Copy Palette</button></div>
+    <div class="palette-groups" id="paletteGroups"></div>
+  </div>
+</section>
 
-        function initNavigation() {
-            const hamburger = document.getElementById('hamburger');
-            const mobileMenu = document.getElementById('mobile-menu');
-            hamburger.addEventListener('click', () => mobileMenu.classList.toggle('active'));
-            document.querySelectorAll('.mobile-nav-link').forEach(link => link.addEventListener('click', () => mobileMenu.classList.remove('active')));
-        }
+<section class="section" id="gradient">
+  <div class="section-heading"><div><span class="eyebrow">CSS READY</span><h2>Gradient Generator</h2><p>Create linear, radial and conic gradients with live CSS.</p></div></div>
+  <div class="gradient-layout tool-card">
+    <div class="gradient-preview" id="gradientPreview"></div>
+    <div class="gradient-controls">
+      <label>Type<select id="gradType"><option value="linear">Linear</option><option value="radial">Radial</option><option value="conic">Conic</option></select></label>
+      <label>Color 1<input type="color" id="grad1" value="#ff4ecd"></label>
+      <label>Color 2<input type="color" id="grad2" value="#00c2ff"></label>
+      <label>Color 3 (optional)<input type="color" id="grad3" value="#6c63ff"></label>
+      <label>Angle <input type="range" id="gradAngle" min="0" max="360" value="135"><output id="angleOut">135°</output></label>
+      <label>Stops <input type="range" id="gradStop" min="0" max="100" value="50"><output id="stopOut">50%</output></label>
+      <div class="code-box"><code id="gradientCss"></code><button data-copy="gradientCss">Copy CSS</button></div>
+      <button class="btn btn-ghost" id="randomGradient">Random Gradient</button><button class="btn btn-ghost" id="resetGradient">Reset</button>
+    </div>
+  </div>
+</section>
 
-        function hexToRgb(hex) {
-            hex = hex.replace(/^#/, '');
-            if (hex.length === 3) hex = hex.split('').map(c => c + c).join('');
-            const num = parseInt(hex, 16);
-            return isNaN(num) || hex.length !== 6 ? null : { r: (num >> 16) & 255, g: (num >> 8) & 255, b: num & 255 };
-        }
+<section class="section" id="contrast">
+  <div class="section-heading"><div><span class="eyebrow">ACCESSIBILITY</span><h2>Contrast Checker</h2><p>Check WCAG contrast for text and backgrounds.</p></div></div>
+  <div class="contrast-layout tool-card">
+    <div class="contrast-controls"><label>Foreground <input type="color" id="fg" value="#111827"></label><label>Background <input type="color" id="bg" value="#ffffff"></label><div class="contrast-ratio"><strong id="ratio">16.00:1</strong><span>Contrast Ratio</span></div><div class="checks" id="checks"></div></div>
+    <div class="contrast-demo" id="contrastDemo"><strong>The quick brown fox</strong><span>jumps over the lazy dog.</span><small>Accessible color preview</small></div>
+  </div>
+</section>
 
-        function rgbToHex(r, g, b) {
-            return "#" + [r, g, b].map(x => {
-                const hex = Math.max(0, Math.min(255, x)).toString(16);
-                return hex.length === 1 ? "0" + hex : hex;
-            }).join('');
-        }
+<section class="section" id="image-tools">
+  <div class="section-heading"><div><span class="eyebrow">100% LOCAL PROCESSING</span><h2>Image Color Tools</h2><p>Analyze an image without uploading it to a server.</p></div></div>
+  <div class="image-grid">
+    <div class="tool-card upload-card"><input type="file" id="imageInput" accept="image/*"><div class="upload-icon">✦</div><h3>Extract Dominant Colors</h3><p>Your image is processed locally in your browser and is not uploaded to a server.</p><div id="dominantColors" class="dominant-colors"></div><button class="btn btn-primary" id="downloadPalette">Download Palette</button></div>
+    <div class="tool-card image-picker-card"><canvas id="imageCanvas"></canvas><div class="image-pick-row"><input type="file" id="pickImageInput" accept="image/*"><span id="pickedSwatch"></span><div><b id="pickedHex">#—</b><small id="pickedRgb">RGB —</small></div></div></div>
+  </div>
+</section>
 
-        function rgbToHsl(r, g, b) {
-            r /= 255; g /= 255; b /= 255;
-            const max = Math.max(r, g, b), min = Math.min(r, g, b);
-            let h, s, l = (max + min) / 2;
-            if (max === min) { h = s = 0; } else {
-                const d = max - min;
-                s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-                switch (max) {
-                    case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-                    case g: h = (b - r) / d + 2; break;
-                    case b: h = (r - g) / d + 4; break;
-                }
-                h /= 6;
-            }
-            return { h: Math.round(h * 360), s: Math.round(s * 100), l: Math.round(l * 100) };
-        }
+<section class="section" id="tools">
+  <div class="section-heading"><div><span class="eyebrow">TOOLS DIRECTORY</span><h2>Explore Color Tools</h2><p>Everything you need for digital color work.</p></div><input class="tool-search" id="toolSearch" placeholder="Search color tools..." aria-label="Search color tools"></div>
+  <div class="tool-directory" id="toolDirectory">
+    <article class="tool-tile" data-name="color picker"><span>🎨</span><h3>Color Picker</h3><p>Pick and copy professional color formats.</p><a href="#picker">Use Tool →</a></article>
+    <article class="tool-tile" data-name="hex rgb converter universal converter"><span>⇄</span><h3>HEX / RGB Converter</h3><p>Convert popular color formats instantly.</p><a href="#converter">Use Tool →</a></article>
+    <article class="tool-tile" data-name="palette generator harmony"><span>◈</span><h3>Palette Generator</h3><p>Generate complementary, analogous and more.</p><a href="#palettes">Use Tool →</a></article>
+    <article class="tool-tile" data-name="gradient css gradient"><span>◒</span><h3>CSS Gradient Generator</h3><p>Build beautiful CSS gradients.</p><a href="#gradient">Use Tool →</a></article>
+    <article class="tool-tile" data-name="contrast checker accessibility"><span>◐</span><h3>Contrast Checker</h3><p>Check AA and AAA accessibility levels.</p><a href="#contrast">Use Tool →</a></article>
+    <article class="tool-tile" data-name="image color extractor image picker"><span>▧</span><h3>Image Color Extractor</h3><p>Extract dominant colors locally.</p><a href="#image-tools">Use Tool →</a></article>
+    <article class="tool-tile" data-name="random color shades tints"><span>✺</span><h3>Shades & Tints</h3><p>Use the picker and generate color variations.</p><a href="#picker">Use Tool →</a></article>
+    <article class="tool-tile" data-name="css color variables developer"><span>&lt;/&gt;</span><h3>CSS Color Tools</h3><p>Copy ready-to-use values and CSS.</p><a href="#converter">Use Tool →</a></article>
+  </div>
+</section>
 
-        function hslToRgb(h, s, l) {
-            s /= 100; l /= 100;
-            const k = n => (n + h / 30) % 12;
-            const a = s * Math.min(l, 1 - l);
-            const f = n => l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)));
-            return { r: Math.round(255 * f(0)), g: Math.round(255 * f(8)), b: Math.round(255 * f(4)) };
-        }
+<section class="section" id="designer-tools">
+  <div class="section-heading"><div><span class="eyebrow">FOR CREATORS</span><h2>Tools for Designers & Developers</h2></div></div>
+  <div class="feature-grid">
+    <div><b>✦ Brand Color Generator</b><span>Build a polished brand palette.</span></div><div><b>▣ Website Color Palette</b><span>Create consistent UI colors.</span></div><div><b>▰ Button Color Generator</b><span>Find strong CTA combinations.</span></div><div><b>◒ Background Generator</b><span>Explore gradient backgrounds.</span></div><div><b>A Text Color Generator</b><span>Test readable foreground colors.</span></div><div><b>&lt;/&gt; CSS Variable Generator</b><span>Turn colors into reusable variables.</span></div>
+  </div>
+</section>
 
-        function rgbToHsv(r, g, b) {
-            r /= 255; g /= 255; b /= 255;
-            const max = Math.max(r, g, b), min = Math.min(r, g, b);
-            const d = max - min;
-            let h, s = max === 0 ? 0 : d / max, v = max;
-            if (max === min) { h = 0; } else {
-                switch (max) {
-                    case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-                    case g: h = (b - r) / d + 2; break;
-                    case b: h = (r - g) / d + 4; break;
-                }
-                h /= 6;
-            }
-            return { h: Math.round(h * 360), s: Math.round(s * 100), v: Math.round(v * 100) };
-        }
+<section class="section why"><div class="section-heading centered"><div><span class="eyebrow">WHY MP COLOR LAB?</span><h2>Built to make color work easier.</h2></div></div><div class="feature-grid"><div><b>100% Browser-Based</b><span>Many tools run entirely on your device.</span></div><div><b>Fast & Easy</b><span>No complicated setup or account.</span></div><div><b>Free Online Tools</b><span>Useful utilities available at no cost.</span></div><div><b>No Installation</b><span>Open the site and start creating.</span></div><div><b>Mobile Friendly</b><span>Designed for phones, tablets and desktops.</span></div><div><b>Made for Designers & Developers</b><span>Practical formats and CSS-ready outputs.</span></div></div></section>
 
-        function rgbToCmyk(r, g, b) {
-            if (r === 0 && g === 0 && b === 0) return { c: 0, m: 0, y: 0, k: 100 };
-            let c = 1 - (r / 255), m = 1 - (g / 255), y = 1 - (b / 255);
-            let k = Math.min(c, Math.min(m, y));
-            return {
-                c: Math.round(((c - k) / (1 - k)) * 100),
-                m: Math.round(((m - k) / (1 - k)) * 100),
-                y: Math.round(((y - k) / (1 - k)) * 100),
-                k: Math.round(k * 100)
-            };
-        }
+<section class="section" id="faq"><div class="section-heading"><div><span class="eyebrow">FAQ</span><h2>Frequently Asked Questions</h2></div></div><div class="faq">
+<details><summary>What is MP Color Lab?</summary><p>MP Color Lab is a free collection of browser-based color utilities for designers, developers, creators, students and anyone working with colors.</p></details>
+<details><summary>Is MP Color Lab free?</summary><p>Yes. The tools are designed to be free to use in your browser.</p></details>
+<details><summary>Can I convert HEX to RGB?</summary><p>Yes. Use the Universal Color Converter to convert HEX, RGB, HSL and HSV values.</p></details>
+<details><summary>Can I generate color palettes?</summary><p>Yes. The palette generator creates several common harmony families from a base color.</p></details>
+<details><summary>Can I create CSS gradients?</summary><p>Yes. The Gradient Generator provides live previews and copyable CSS.</p></details>
+<details><summary>Can I extract colors from an image?</summary><p>Yes. Upload an image to the Image Color Extractor. Processing happens locally in the browser.</p></details>
+<details><summary>Are uploaded images sent to a server?</summary><p>The image tools on this static site process selected images locally using browser APIs.</p></details>
+<details><summary>Can I save favorite colors?</summary><p>The site is prepared for browser-local favorites/history using localStorage; no account is required.</p></details>
+</div></section>
 
-        function initColorPicker() {
-            const nativePicker = document.getElementById('main-native-picker');
-            const hexInput = document.getElementById('main-hex-input');
-            nativePicker.addEventListener('input', (e) => updatePickerUI(e.target.value));
-            hexInput.addEventListener('input', (e) => {
-                let val = e.target.value;
-                if (!val.startsWith('#')) val = '#' + val;
-                if (hexToRgb(val)) updatePickerUI(val);
-            });
-        }
+<section class="section support"><div class="support-card"><div><span class="eyebrow">NEED HELP?</span><h2>Have feedback or a color question?</h2><p>Reach MP Digital Hub through the support channels below.</p></div><div class="support-actions"><a class="btn btn-primary" href="https://wa.me/919131053539" target="_blank" rel="noopener">WhatsApp</a><a class="btn btn-ghost" href="https://www.instagram.com/mpdigitalhub/" target="_blank" rel="noopener">Instagram</a></div></div></section>
 
-        function updatePickerUI(hex) {
-            document.getElementById('main-native-picker').value = hex;
-            document.getElementById('main-hex-input').value = hex;
-            document.getElementById('main-color-display').style.backgroundColor = hex;
-            document.getElementById('main-preview-text').innerText = hex.toUpperCase();
+<section class="legal section" id="about"><div><span class="eyebrow">ABOUT</span><h2>About MP Color Lab</h2><p>MP Color Lab is a free online collection of browser-based color tools for students, designers, developers, content creators, website owners, digital marketers and anyone working with colors. Many tools process information directly in your browser.</p></div>
+<div><h3>Privacy Policy</h3><p>Most tools work locally in the browser. Image-based tools process uploaded images locally where applicable. The website itself does not intentionally require unnecessary personal information. Favorites and history may use localStorage. Any future third-party services should be disclosed clearly.</p></div>
+<div><h3>Terms & Conditions</h3><p>Use the website responsibly. Tools are provided for convenience and color calculations may have limitations. Service availability is not guaranteed. Users remain responsible for their design decisions, intellectual property and use of external links. Liability is limited to the extent permitted by applicable law. Service details may change.</p></div>
+<div><h3>Disclaimer</h3><p>Color calculations and contrast information are helpful references, not a substitute for verification in critical design or accessibility decisions. Conversion results may have limitations depending on color space and rounding.</p></div></section>
+</main>
 
-            const rgb = hexToRgb(hex);
-            if (!rgb) return;
-            const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
-            const hsv = rgbToHsv(rgb.r, rgb.g, rgb.b);
-            const cmyk = rgbToCmyk(rgb.r, rgb.g, rgb.b);
+<footer class="footer">
+  <div class="footer-main"><div><a class="brand footer-brand" href="#home"><span class="logo"><svg viewBox="0 0 64 64"><defs><linearGradient id="flg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#6c63ff"/><stop offset=".5" stop-color="#00c2ff"/><stop offset="1" stop-color="#ff4ecd"/></linearGradient></defs><path d="M20 10h24l-5 19a15 15 0 1 1-14 0z" fill="url(#flg)"/><path d="M25 8h14" stroke="currentColor" stroke-width="5" stroke-linecap="round"/><text x="32" y="36" text-anchor="middle" fill="white" font-size="11" font-family="Arial" font-weight="800">MP</text></svg></span><span><strong>MP Color Lab</strong><small>Explore. Create. Convert. Master Colors.</small></span></a><p>A project by MP Digital Hub</p></div>
+  <div><h4>Tools</h4><a href="#picker">Color Picker</a><a href="#converter">Converter</a><a href="#palettes">Palette Generator</a><a href="#gradient">Gradient Generator</a><a href="#image-tools">Image Color Extractor</a><a href="#contrast">Contrast Checker</a></div>
+  <div><h4>Company</h4><a href="#about">About</a><a href="#faq">FAQ</a><a href="https://wa.me/919131053539" target="_blank" rel="noopener">Contact</a></div>
+  <div><h4>Social</h4><a href="https://wa.me/919131053539" target="_blank" rel="noopener">WhatsApp</a><a href="https://www.instagram.com/mpdigitalhub/" target="_blank" rel="noopener">Instagram</a></div></div>
+  <div class="footer-bottom"><span>© 2026 MP Color Lab. All rights reserved.</span><span>MP Digital Hub • <a href="https://mpcolorlab.online/">mpcolorlab.online</a></span></div>
+</footer>
 
-            document.getElementById('val-hex').innerText = hex.toLowerCase();
-            document.getElementById('val-rgb').innerText = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
-            document.getElementById('val-hsl').innerText = `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`;
-            document.getElementById('val-hsv').innerText = `hsv(${hsv.h}, ${hsv.s}%, ${hsv.v}%)`;
-            document.getElementById('val-cmyk').innerText = `cmyk(${cmyk.c}%, ${cmyk.m}%, ${cmyk.y}%, ${cmyk.k}%)`;
-            document.getElementById('val-name').innerText = approximateColorName(hex);
-
-            document.getElementById('hero-gradient-preview').style.background = `linear-gradient(135deg, ${hex}, #ec4899)`;
-            document.getElementById('hero-hex-label').innerText = hex.toUpperCase();
-            document.getElementById('hero-rgb-label').innerText = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
-        }
-
-        function setRandomColor() {
-            const randomHex = "#" + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
-            updatePickerUI(randomHex);
-        }
-
-        function approximateColorName(hex) {
-            const rgb = hexToRgb(hex);
-            if (!rgb) return "Unknown";
-            if (rgb.r > 200 && rgb.g < 100 && rgb.b < 100) return "Red / Crimson";
-            if (rgb.r < 100 && rgb.g > 180 && rgb.b < 100) return "Green / Emerald";
-            if (rgb.r < 100 && rgb.g < 100 && rgb.b > 200) return "Blue / Cobalt";
-            return "Custom Blend";
-        }
-
-        function initUniversalConverter() {
-            const cHex = document.getElementById('conv-hex');
-            const cRgb = document.getElementById('conv-rgb');
-            const cHsl = document.getElementById('conv-hsl');
-            const err = document.getElementById('conv-error');
-
-            cHex.addEventListener('input', (e) => {
-                let hex = e.target.value.trim();
-                if (!hex.startsWith('#')) hex = '#' + hex;
-                const rgb = hexToRgb(hex);
-                if (rgb) {
-                    const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
-                    cRgb.value = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
-                    cHsl.value = `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`;
-                    document.getElementById('conv-preview-bar').style.backgroundColor = hex;
-                    err.innerText = '';
-                } else {
-                    err.innerText = 'Invalid HEX code string.';
-                }
-            });
-        }
-
-        function generatePalette() {
-            const baseHex = document.getElementById('palette-base-color').value;
-            const mode = document.getElementById('palette-mode').value;
-            const container = document.getElementById('palette-cards-container');
-            const rgb = hexToRgb(baseHex);
-            const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
-
-            let hues = [];
-            if (mode === 'complementary') hues = [hsl.h, (hsl.h + 180) % 360];
-            else if (mode === 'analogous') hues = [hsl.h, (hsl.h + 30) % 360, (hsl.h + 60) % 360, (hsl.h + 330) % 360];
-            else if (mode === 'triadic') hues = [hsl.h, (hsl.h + 120) % 360, (hsl.h + 240) % 360];
-            else hues = [hsl.h, hsl.h, hsl.h];
-
-            container.innerHTML = hues.map((h, i) => {
-                const l = mode === 'monochromatic' ? Math.max(10, Math.min(90, 20 + i * 20)) : hsl.l;
-                const itemRgb = hslToRgb(h, hsl.s, l);
-                const itemHex = rgbToHex(itemRgb.r, itemRgb.g, itemRgb.b);
-                return `
-                    <div class="palette-card">
-                        <div class="palette-swatch" style="background-color: ${itemHex};"></div>
-                        <div class="palette-meta">
-                            <span class="text-mono">${itemHex}</span>
-                            <button class="btn-copy" onclick="copyValue('${itemHex}')">Copy</button>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function exportPaletteJSON() {
-            const cards = document.querySelectorAll('.palette-card .text-mono');
-            const hexList = Array.from(cards).map(el => el.innerText);
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({ palette: hexList }));
-            const anchor = document.createElement('a');
-            anchor.setAttribute("href", dataStr);
-            anchor.setAttribute("download", "palette.json");
-            document.body.appendChild(anchor);
-            anchor.click();
-            anchor.remove();
-        }
-
-        function generateShadesTints() {
-            const baseHex = document.getElementById('shades-base-color').value;
-            document.getElementById('shades-hex-text').value = baseHex;
-            const rgb = hexToRgb(baseHex);
-            if (!rgb) return;
-
-            let tintsHTML = '', shadesHTML = '';
-            for (let i = 1; i <= 8; i++) {
-                const tintHex = rgbToHex(Math.round(rgb.r + (255 - rgb.r) * (i * 0.1)), Math.round(rgb.g + (255 - rgb.g) * (i * 0.1)), Math.round(rgb.b + (255 - rgb.b) * (i * 0.1)));
-                tintsHTML += `<div class="shade-box" style="background:${tintHex}; color:#000;" onclick="copyValue('${tintHex}')">${tintHex}</div>`;
-                const shadeHex = rgbToHex(Math.round(rgb.r * (1 - i * 0.1)), Math.round(rgb.g * (1 - i * 0.1)), Math.round(rgb.b * (1 - i * 0.1)));
-                shadesHTML += `<div class="shade-box" style="background:${shadeHex}; color:#fff;" onclick="copyValue('${shadeHex}')">${shadeHex}</div>`;
-            }
-            document.getElementById('tints-container').innerHTML = tintsHTML;
-            document.getElementById('shades-container').innerHTML = shadesHTML;
-        }
-
-        function updateGradient() {
-            const type = document.getElementById('grad-type').value;
-            const angle = document.getElementById('grad-angle').value;
-            const c1 = document.getElementById('grad-c1').value;
-            const c2 = document.getElementById('grad-c2').value;
-
-            document.getElementById('grad-angle-val').innerText = angle;
-            document.getElementById('angle-group').style.display = type === 'linear' ? 'flex' : 'none';
-
-            let cssStr = type === 'linear' ? `linear-gradient(${angle}deg, ${c1}, ${c2})` : (type === 'radial' ? `radial-gradient(circle, ${c1}, ${c2})` : `conic-gradient(from ${angle}deg, ${c1}, ${c2})`);
-            document.getElementById('gradient-box-display').style.background = cssStr;
-            document.getElementById('gradient-css-code').innerText = `background: ${cssStr};`;
-        }
-
-        function randomizeGradient() {
-            document.getElementById('grad-c1').value = "#" + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
-            document.getElementById('grad-c2').value = "#" + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
-            updateGradient();
-        }
-
-        function calculateContrast() {
-            const fg = document.getElementById('contrast-fg').value;
-            const bg = document.getElementById('contrast-bg').value;
-
-            document.getElementById('contrast-fg-text').value = fg;
-            document.getElementById('contrast-bg-text').value = bg;
-
-            const preview = document.getElementById('contrast-preview-card');
-            preview.style.color = fg;
-            preview.style.backgroundColor = bg;
-
-            const getLuminance = (hex) => {
-                const rgb = hexToRgb(hex);
-                const a = [rgb.r, rgb.g, rgb.b].map(v => {
-                    v /= 255;
-                    return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
-                });
-                return a[0] * 0.2126 + a[1] * 0.7152 + a[2] * 0.0722;
-            };
-
-            const l1 = getLuminance(fg), l2 = getLuminance(bg);
-            const ratio = ((Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05)).toFixed(1);
-            document.getElementById('contrast-ratio-val').innerText = `${ratio}:1`;
-
-            document.getElementById('badge-normal-aa').innerText = ratio >= 4.5 ? 'PASS' : 'FAIL';
-            document.getElementById('badge-normal-aa').className = ratio >= 4.5 ? 'badge badge-success' : 'badge badge-fail';
-
-            document.getElementById('badge-large-aaa').innerText = ratio >= 7.0 ? 'PASS' : 'FAIL';
-            document.getElementById('badge-large-aaa').className = ratio >= 7.0 ? 'badge badge-success' : 'badge badge-fail';
-        }
-
-        function swapContrastColors() {
-            const fg = document.getElementById('contrast-fg').value;
-            const bg = document.getElementById('contrast-bg').value;
-            document.getElementById('contrast-fg').value = bg;
-            document.getElementById('contrast-bg').value = fg;
-            calculateContrast();
-        }
-
-        function initImageTools() {
-            const fileInput = document.getElementById('img-file-input');
-            const canvas = document.getElementById('image-canvas');
-            const ctx = canvas.getContext('2d');
-
-            fileInput.addEventListener('change', (e) => {
-                const file = e.target.files[0];
-                if (!file) return;
-                const img = new Image();
-                img.onload = () => {
-                    canvas.width = img.width > 450 ? 450 : img.width;
-                    canvas.height = img.height * (canvas.width / img.width);
-                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-                    extractDominantPalette(ctx, canvas.width, canvas.height);
-                };
-                img.src = URL.createObjectURL(file);
-            });
-
-            canvas.addEventListener('click', (e) => {
-                const rect = canvas.getBoundingClientRect();
-                const x = e.clientX - rect.left, y = e.clientY - rect.top;
-                const pixel = ctx.getImageData(x, y, 1, 1).data;
-                const hex = rgbToHex(pixel[0], pixel[1], pixel[2]);
-                document.getElementById('picked-pixel-box').style.backgroundColor = hex;
-                document.getElementById('picked-pixel-code').innerText = hex;
-                showToast(`Picked ${hex}`);
-            });
-        }
-
-        function extractDominantPalette(ctx, width, height) {
-            const imgData = ctx.getImageData(0, 0, width, height).data;
-            const colorMap = {};
-            for (let i = 0; i < imgData.length; i += 40) {
-                const hex = rgbToHex(imgData[i], imgData[i+1], imgData[i+2]);
-                colorMap[hex] = (colorMap[hex] || 0) + 1;
-            }
-            const sorted = Object.keys(colorMap).sort((a, b) => colorMap[b] - colorMap[a]).slice(0, 6);
-            document.getElementById('extracted-palette-grid').innerHTML = sorted.map(hex => `
-                <div class="palette-card">
-                    <div class="palette-swatch" style="background-color: ${hex};"></div>
-                    <div class="palette-meta">
-                        <span class="text-mono">${hex}</span>
-                        <button class="btn-copy" onclick="copyValue('${hex}')">Copy</button>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function mixColors() {
-            const c1 = document.getElementById('mix-c1').value;
-            const c2 = document.getElementById('mix-c2').value;
-            const rgb1 = hexToRgb(c1), rgb2 = hexToRgb(c2);
-            const grid = document.getElementById('mixer-output-grid');
-
-            grid.innerHTML = [0.25, 0.5, 0.75].map(w => {
-                const hex = rgbToHex(Math.round(rgb1.r*(1-w) + rgb2.r*w), Math.round(rgb1.g*(1-w) + rgb2.g*w), Math.round(rgb1.b*(1-w) + rgb2.b*w));
-                return `<div class="shade-box" style="background:${hex}; color:#fff;" onclick="copyValue('${hex}')">${Math.round(w*100)}%</div>`;
-            }).join('');
-        }
-
-        function simulateColorBlindness() {
-            const hex = document.getElementById('cb-input').value;
-            const rgb = hexToRgb(hex);
-            const protan = rgbToHex(Math.round(rgb.r * 0.566 + rgb.g * 0.433), Math.round(rgb.r * 0.558 + rgb.g * 0.442), rgb.b);
-            document.getElementById('cb-results-list').innerHTML = `
-                <p class="small mt-1">Protanopia: <span class="text-mono">${protan}</span> <span class="color-swatch-sm" style="display:inline-block; background:${protan};"></span></p>
-            `;
-        }
-
-        function generateCssVariables() {
-            const hex = document.getElementById('main-native-picker').value;
-            document.getElementById('css-var-code').innerText = `:root {\n  --primary-color: ${hex};\n  --accent-color: ${hex}dd;\n}`;
-        }
-
-        function saveCurrentToFavorites() {
-            const hex = document.getElementById('main-hex-input').value;
-            let favs = JSON.parse(localStorage.getItem('mp_color_favs') || '[]');
-            if (!favs.includes(hex)) {
-                favs.push(hex);
-                localStorage.setItem('mp_color_favs', JSON.stringify(favs));
-                loadFavorites();
-                showToast(`Saved ${hex} to favorites!`);
-            }
-        }
-
-        function loadFavorites() {
-            const favs = JSON.parse(localStorage.getItem('mp_color_favs') || '[]');
-            const grid = document.getElementById('favorites-grid');
-            if (favs.length === 0) { grid.innerHTML = `<p class="text-muted">No stored favorites yet.</p>`; return; }
-            grid.innerHTML = favs.map(hex => `<div class="shade-box" style="background:${hex}; color:#fff;" onclick="copyValue('${hex}')">${hex}</div>`).join('');
-        }
-
-        function clearFavorites() {
-            localStorage.removeItem('mp_color_favs');
-            loadFavorites();
-            showToast('Cleared all saved favorites.');
-        }
-
-        function initSearchFilter() {
-            document.getElementById('tool-search-input').addEventListener('keyup', (e) => {
-                const query = e.target.value.toLowerCase();
-                document.querySelectorAll('.tool-card').forEach(card => card.style.display = card.innerText.toLowerCase().includes(query) ? 'block' : 'none');
-            });
-        }
-
-        function clearToolSearch() {
-            document.getElementById('tool-search-input').value = '';
-            document.querySelectorAll('.tool-card').forEach(card => card.style.display = 'block');
-        }
-
-        function initAccordion() {
-            document.querySelectorAll('.accordion-header').forEach(header => header.addEventListener('click', () => header.parentElement.classList.toggle('active')));
-        }
-
-        function copyText(id) { copyValue(document.getElementById(id).innerText); }
-
-        function copyValue(text) {
-            navigator.clipboard.writeText(text).then(() => showToast(`Copied "${text}"`)).catch(() => showToast('Copy failed'));
-        }
-
-        function showToast(msg) {
-            const container = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-            toast.className = 'toast';
-            toast.innerText = msg;
-            container.appendChild(toast);
-            setTimeout(() => toast.remove(), 2500);
-        }
-    </script>
+<div class="toast" id="toast">Copied!</div><button class="backtop" id="backTop" aria-label="Back to top">↑</button>
+<script src="script.js"></script>
 </body>
-</html>
+</html>'''
+
+style_css = r''':root{--bg:#f7f8fc;--surface:#fff;--surface2:#eef1f8;--text:#12182a;--muted:#667085;--border:#e3e7f0;--primary:#6c63ff;--cyan:#00c2ff;--pink:#ff4ecd;--shadow:0 18px 55px rgba(30,35,70,.10);--radius:22px}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);background:var(--bg);line-height:1.6}body.dark{--bg:#080d1b;--surface:#10172a;--surface2:#151e34;--text:#f4f6ff;--muted:#aab2c5;--border:#27314a;--shadow:0 20px 60px rgba(0,0,0,.35)}a{color:inherit;text-decoration:none}button,input,select{font:inherit}.progress{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--pink),var(--primary),var(--cyan));z-index:1000}.header{height:74px;position:sticky;top:0;z-index:100;background:color-mix(in srgb,var(--surface) 86%,transparent);backdrop-filter:blur(18px);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:24px;padding:0 clamp(16px,4vw,56px)}.brand{display:flex;align-items:center;gap:10px;min-width:max-content}.brand .logo{width:42px;height:42px;display:grid;place-items:center}.logo svg{width:100%;height:100%}.brand strong{display:block;font-size:16px;letter-spacing:-.3px}.brand small{display:block;color:var(--muted);font-size:10px}.header nav{display:flex;gap:20px;margin-left:auto;font-size:13px;color:var(--muted)}.header nav a:hover{color:var(--primary)}.header-actions{display:flex;align-items:center;gap:8px}.icon-btn,.menu-btn{border:1px solid var(--border);background:var(--surface);color:var(--text);width:40px;height:40px;border-radius:12px;cursor:pointer}.menu-btn{display:none}.btn{border:0;border-radius:13px;padding:11px 17px;font-weight:750;cursor:pointer;display:inline-flex;gap:9px;align-items:center;justify-content:center;transition:.2s transform,.2s box-shadow}.btn:hover{transform:translateY(-2px);box-shadow:0 10px 25px rgba(60,70,150,.16)}.btn-primary{color:#fff;background:linear-gradient(135deg,var(--primary),var(--pink))}.btn-ghost{color:var(--text);background:var(--surface);border:1px solid var(--border)}.section{max-width:1180px;margin:auto;padding:78px 24px}.hero{min-height:640px;display:grid;grid-template-columns:1.02fr .98fr;align-items:center;gap:40px;padding-top:85px}.eyebrow{font-size:11px;font-weight:850;letter-spacing:1.7px;color:var(--primary)}h1{font-size:clamp(45px,6vw,78px);line-height:1.03;letter-spacing:-4px;margin:16px 0}.hero h1 span{background:linear-gradient(90deg,var(--primary),var(--cyan),var(--pink));-webkit-background-clip:text;color:transparent}.hero-copy>p{font-size:19px;color:var(--muted);max-width:600px}.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin:28px 0}.hero-trust{display:flex;gap:18px;flex-wrap:wrap;color:var(--muted);font-size:12px}.hero-art{min-height:420px;position:relative;display:grid;place-items:center}.showcase-card{position:relative;width:min(440px,90%);padding:18px;border:1px solid rgba(255,255,255,.35);background:color-mix(in srgb,var(--surface) 82%,transparent);border-radius:28px;box-shadow:var(--shadow);backdrop-filter:blur(20px);transform:rotate(2deg)}.showcase-top{display:flex;justify-content:space-between;color:var(--muted);font-size:11px}.mini-dot{width:8px;height:8px;border-radius:50%;background:var(--pink);margin-right:auto}.showcase-gradient{height:230px;border-radius:20px;margin:15px 0;background:linear-gradient(135deg,#6c63ff,#00c2ff,#ff4ecd)}.showcase-values{display:flex;gap:35px}.showcase-values b{font-size:18px}.showcase-values small{display:block;color:var(--muted);font-size:9px}.mini-palette{display:flex;gap:7px;margin-top:15px}.mini-palette i{height:35px;flex:1;border-radius:9px;background:#6c63ff}.mini-palette i:nth-child(2){background:#00c2ff}.mini-palette i:nth-child(3){background:#ff4ecd}.mini-palette i:nth-child(4){background:#ffb547}.mini-palette i:nth-child(5){background:#2ed47a}.orb{position:absolute;border-radius:50%;filter:blur(2px);opacity:.65}.orb-a{width:180px;height:180px;background:#ff4ecd;right:0;top:30px}.orb-b{width:130px;height:130px;background:#00c2ff;left:0;bottom:25px}.ad-slot{max-width:900px;height:72px;border:1px dashed var(--border);border-radius:16px;margin:0 auto 20px;display:grid;place-items:center;color:var(--muted);font-size:11px}.section-heading{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:25px}.section-heading h2{font-size:clamp(30px,4vw,46px);letter-spacing:-2px;line-height:1.1;margin:8px 0}.section-heading p{color:var(--muted);margin:0}.centered{justify-content:center;text-align:center}.tool-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px}.picker-grid{display:grid;grid-template-columns:300px 1fr;gap:25px}.picker-preview{min-height:310px;border-radius:18px;background:#6c63ff;display:grid;place-items:center}.picker-preview input{width:120px;height:120px;border:0;background:none;cursor:pointer}.value-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.value-box{background:var(--surface2);border:1px solid var(--border);border-radius:14px;padding:13px;position:relative}.value-box span{font-size:10px;color:var(--muted);font-weight:800}.value-box strong{display:block;margin:4px 0 0;font-size:13px;word-break:break-word}.value-box button,.code-box button{position:absolute;right:9px;top:9px;border:0;border-radius:8px;background:var(--surface);color:var(--primary);padding:5px 8px;font-size:10px;font-weight:800;cursor:pointer}.quick-actions{grid-column:1/-1;display:flex;gap:10px;align-items:center}.converter-layout{display:grid;grid-template-columns:280px 1fr;gap:28px}.converter-inputs label,.gradient-controls label{display:block;font-size:12px;font-weight:750;margin-bottom:14px}.converter-inputs input,.converter-inputs select,.gradient-controls select,.tool-search{width:100%;padding:12px;border:1px solid var(--border);border-radius:11px;background:var(--surface2);color:var(--text);margin-top:6px;outline:none}.converter-results{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.result-box{padding:17px;background:var(--surface2);border-radius:14px;border:1px solid var(--border)}.result-box span{font-size:10px;color:var(--muted)}.result-box b{display:block;margin-top:4px}.result-box button{margin-top:9px;border:0;background:transparent;color:var(--primary);font-size:11px;font-weight:800;cursor:pointer}.error{color:#ef4444;font-size:12px}.tool-toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:22px}.tool-toolbar label{font-size:12px;font-weight:800;display:flex;align-items:center;gap:8px}.tool-toolbar input[type=color]{width:48px;height:40px;border:0;background:none}.palette-groups{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}.palette-group{border:1px solid var(--border);border-radius:16px;padding:15px}.palette-group h3{font-size:14px;margin:0 0 10px}.swatches{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}.swatch{min-height:100px;border-radius:11px;display:flex;align-items:end;padding:7px;color:#fff;text-shadow:0 1px 3px #000;font-size:9px;cursor:pointer}.gradient-layout{display:grid;grid-template-columns:1.2fr .8fr;gap:28px}.gradient-preview{min-height:430px;border-radius:20px;background:linear-gradient(135deg,#ff4ecd 0%,#00c2ff 50%,#6c63ff 100%)}.gradient-controls input[type=color]{width:100%;height:42px;border:0;background:var(--surface2);border-radius:9px}.gradient-controls input[type=range]{width:calc(100% - 55px);vertical-align:middle}.gradient-controls output{display:inline-block;width:45px;text-align:right}.code-box{position:relative;background:#0d1324;color:#fff;border-radius:13px;padding:16px;margin:16px 0;min-height:70px}.code-box code{display:block;font-size:12px;line-height:1.5;padding-right:65px;word-break:break-word}.code-box button{background:#fff}.contrast-layout{display:grid;grid-template-columns:360px 1fr;gap:25px}.contrast-controls{display:grid;grid-template-columns:1fr 1fr;gap:12px}.contrast-controls label{background:var(--surface2);padding:12px;border-radius:13px;font-size:12px;font-weight:800}.contrast-controls input{display:block;width:100%;height:42px;border:0;background:none;margin-top:4px}.contrast-ratio{grid-column:1/-1;padding:18px;border-radius:14px;background:linear-gradient(135deg,#eef0ff,#e7fbff)}.contrast-ratio strong{display:block;font-size:30px}.contrast-ratio span{font-size:11px;color:#667085}.checks{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:8px}.check{padding:9px;border-radius:10px;font-size:11px;font-weight:800;background:var(--surface2)}.contrast-demo{min-height:300px;border-radius:18px;padding:50px;display:flex;flex-direction:column;justify-content:center;gap:7px;font-size:24px}.contrast-demo small{font-size:11px;opacity:.7}.image-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}.upload-card{min-height:390px;text-align:center;position:relative}.upload-card input[type=file]{width:100%;padding:15px;border:1px dashed var(--border);border-radius:13px}.upload-icon{font-size:40px;margin:22px}.dominant-colors{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0;justify-content:center}.dominant{width:70px;height:70px;border-radius:12px;display:flex;align-items:end;padding:5px;color:#fff;font-size:8px;text-shadow:0 1px 3px #000;cursor:pointer}.image-picker-card{overflow:hidden}.image-picker-card canvas{width:100%;max-height:340px;object-fit:contain;background:var(--surface2);border-radius:14px;display:block}.image-pick-row{display:flex;align-items:center;gap:12px;margin-top:12px}.image-pick-row input{max-width:180px}.image-pick-row span{width:45px;height:45px;border-radius:10px;background:#ddd}.image-pick-row small{display:block;color:var(--muted)}.tool-search{max-width:280px}.tool-directory{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}.tool-tile{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:20px;box-shadow:0 8px 25px rgba(30,35,70,.05);transition:.2s}.tool-tile:hover{transform:translateY(-4px);box-shadow:var(--shadow)}.tool-tile>span{font-size:28px}.tool-tile h3{font-size:16px;margin:10px 0 5px}.tool-tile p{color:var(--muted);font-size:12px;min-height:42px}.tool-tile a{font-size:11px;font-weight:850;color:var(--primary)}.feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.feature-grid>div{padding:21px;border-radius:17px;background:var(--surface);border:1px solid var(--border)}.feature-grid b{display:block}.feature-grid span{display:block;color:var(--muted);font-size:12px;margin-top:6px}.why{background:linear-gradient(135deg,color-mix(in srgb,var(--primary) 9%,var(--bg)),color-mix(in srgb,var(--cyan) 7%,var(--bg)));max-width:none}.why>.section-heading,.why>.feature-grid{max-width:1132px;margin-left:auto;margin-right:auto}.faq{max-width:900px;margin:auto}.faq details{background:var(--surface);border:1px solid var(--border);border-radius:13px;margin:9px 0;padding:17px 20px}.faq summary{cursor:pointer;font-weight:800}.faq p{color:var(--muted);font-size:13px;margin:12px 0 0}.support-card{border-radius:26px;padding:38px;display:flex;justify-content:space-between;gap:25px;align-items:center;background:linear-gradient(135deg,#151b36,#27235a);color:#fff}.support-card p{color:#c6cce0}.support-actions{display:flex;gap:10px}.support-card .btn-ghost{color:#fff;background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.2)}.legal{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:25px}.legal h2{margin-top:7px}.legal h3{font-size:16px}.legal p{font-size:12px;color:var(--muted)}.footer{background:#080d1b;color:#dfe4f5;padding:55px max(24px,calc((100% - 1132px)/2)) 20px}.footer-main{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px}.footer-brand{margin-bottom:12px}.footer p,.footer a{color:#8e98b2;font-size:12px}.footer h4{font-size:12px;text-transform:uppercase;letter-spacing:1px;color:#fff}.footer-main>div>a:not(.brand){display:block;margin:7px 0}.footer-bottom{border-top:1px solid #1d263a;margin-top:40px;padding-top:18px;display:flex;justify-content:space-between;font-size:11px;color:#727d96}.footer-bottom a{color:#aeb7cb}.toast{position:fixed;bottom:25px;left:50%;transform:translate(-50%,20px);opacity:0;background:#111827;color:#fff;padding:10px 15px;border-radius:10px;font-size:12px;z-index:1001;transition:.25s}.toast.show{opacity:1;transform:translate(-50%,0)}.backtop{position:fixed;right:20px;bottom:20px;width:42px;height:42px;border-radius:50%;border:1px solid var(--border);background:var(--surface);color:var(--text);box-shadow:var(--shadow);cursor:pointer;display:none}.backtop.show{display:block}@media(max-width:1050px){.header nav{display:none}.menu-btn{display:block}.nav-cta{display:none}.header{justify-content:space-between}.header nav.open{display:flex;position:absolute;top:74px;left:0;right:0;background:var(--surface);padding:18px 24px;flex-direction:column;border-bottom:1px solid var(--border)}.hero{grid-template-columns:1fr}.hero-art{min-height:340px}.tool-directory{grid-template-columns:repeat(2,1fr)}.legal{grid-template-columns:1fr 1fr}}@media(max-width:720px){.section{padding:58px 17px}.hero{padding-top:55px}.hero h1{letter-spacing:-2.5px}.picker-grid,.converter-layout,.gradient-layout,.contrast-layout,.image-grid{grid-template-columns:1fr}.picker-preview{min-height:220px}.value-grid,.converter-results,.palette-groups{grid-template-columns:1fr}.tool-directory,.feature-grid{grid-template-columns:1fr}.support-card{flex-direction:column;align-items:flex-start}.legal{grid-template-columns:1fr}.footer-main{grid-template-columns:1fr 1fr}.footer-bottom{flex-direction:column;gap:8px}.contrast-controls{grid-template-columns:1fr}.swatches{grid-template-columns:repeat(5,1fr)}.swatch{min-height:75px}.hero-art{min-height:300px}.showcase-gradient{height:180px}.tool-search{max-width:100%}.section-heading{align-items:flex-start;flex-direction:column}}'''
+
+script_js = r'''(() => {
+"use strict";
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const toast=(msg="Copied!")=>{const t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(window._toast);window._toast=setTimeout(()=>t.classList.remove("show"),1600)};
+const clamp=(n,a,b)=>Math.min(b,Math.max(a,n));
+const hexToRgb=hex=>{hex=hex.replace("#","").trim();if(hex.length===3)hex=hex.split("").map(x=>x+x).join("");if(!/^[0-9a-f]{6}$/i.test(hex))throw Error("Invalid HEX");return {r:parseInt(hex.slice(0,2),16),g:parseInt(hex.slice(2,4),16),b:parseInt(hex.slice(4,6),16)}};
+const rgbToHex=({r,g,b})=>"#"+[r,g,b].map(x=>clamp(Math.round(x),0,255).toString(16).padStart(2,"0")).join("").toUpperCase();
+function rgbToHsl({r,g,b}){r/=255;g/=255;b/=255;let max=Math.max(r,g,b),min=Math.min(r,g,b),h,s,l=(max+min)/2;if(max===min)h=s=0;else{let d=max-min;s=l>.5?d/(2-max-min):d/(max+min);switch(max){case r:h=(g-b)/d+(g<b?6:0);break;case g:h=(b-r)/d+2;break;default:h=(r-g)/d+4}h/=6}return {h:Math.round(h*360),s:Math.round(s*100),l:Math.round(l*100)}}
+function hslToRgb(h,s,l){h/=360;s/=100;l/=100;const hue2rgb=(p,q,t)=>{if(t<0)t+=1;if(t>1)t-=1;if(t<1/6)return p+(q-p)*6*t;if(t<1/2)return q;if(t<2/3)return p+(q-p)*(2/3-t)*6;return p};if(s===0)return {r:l*255,g:l*255,b:l*255};let q=l<.5?l*(1+s):l+s-l*s,p=2*l-q;return {r:hue2rgb(p,q,h+1/3)*255,g:hue2rgb(p,q,h)*255,b:hue2rgb(p,q,h-1/3)*255}}
+function rgbToHsv({r,g,b}){r/=255;g/=255;b/=255;let max=Math.max(r,g,b),min=Math.min(r,g,b),d=max-min,h=max===min?0:max===r?((g-b)/d+(g<b?6:0)):max===g?(b-r)/d+2:(r-g)/d+4;return {h:Math.round(h/6*360),s:Math.round((max===0?0:d/max)*100),v:Math.round(max*100)}}
+function hsvToRgb(h,s,v){h/=60;s/=100;v/=100;let c=v*s,x=c*(1-Math.abs(h%2-1)),m=v-c,r=0,g=0,b=0;if(h<1)[r,g,b]=[c,x,0];else if(h<2)[r,g,b]=[x,c,0];else if(h<3)[r,g,b]=[0,c,x];else if(h<4)[r,g,b]=[0,x,c];else if(h<5)[r,g,b]=[x,0,c];else[r,g,b]=[c,0,x];return {r:(r+m)*255,g:(g+m)*255,b:(b+m)*255}}
+function parseColor(fmt,v){v=v.trim();if(fmt==="HEX")return hexToRgb(v);let m=v.match(/-?\d+(?:\.\d+)?/g);if(!m||m.length<3)throw Error("Invalid "+fmt+" value");let a=m.map(Number);if(fmt==="RGB")return {r:a[0],g:a[1],b:a[2]};if(fmt==="HSL")return hslToRgb(a[0],a[1],a[2]);return hsvToRgb(a[0],a[1],a[2])}
+const fmtRgb=c=>`rgb(${Math.round(c.r)}, ${Math.round(c.g)}, ${Math.round(c.b)})`;
+const fmtHsl=c=>{let x=rgbToHsl(c);return `hsl(${x.h}, ${x.s}%, ${x.l}%)`};
+const fmtHsv=c=>{let x=rgbToHsv(c);return `hsv(${x.h}, ${x.s}%, ${x.v}%)`};
+const cmyk=c=>{let r=c.r/255,g=c.g/255,b=c.b/255,k=1-Math.max(r,g,b);if(k>=.999)return "0%, 0%, 0%, 100%";return [((1-r-k)/(1-k)*100),((1-g-k)/(1-k)*100),((1-b-k)/(1-k)*100),k*100].map(x=>Math.round(x)+"%").join(", ")};
+const randomHex=()=>rgbToHex({r:Math.random()*256,g:Math.random()*256,b:Math.random()*256});
+function updateQuick(hex){let c=hexToRgb(hex),h=rgbToHsl(c),v=rgbToHsv(c),css=rgbToHex(c);$("#quickColor").value=css;$("#quickPreview").style.background=css;$("#qHex").textContent=css;$("#qRgb").textContent=fmtRgb(c);$("#qHsl").textContent=fmtHsl(c);$("#qHsv").textContent=fmtHsv(c);$("#qHsb").textContent=fmtHsv(c);$("#qCmyk").textContent=cmyk(c);$("#heroHex").textContent=css;$("#heroGradient").style.background=`linear-gradient(135deg,${css},#00c2ff,#ff4ecd)`;localStorage.setItem("mcl:lastColor",css);addHistory(css)}
+function addHistory(hex){let a=JSON.parse(localStorage.getItem("mcl:history")||"[]");a=[hex,...a.filter(x=>x!==hex)].slice(0,20);localStorage.setItem("mcl:history",JSON.stringify(a))}
+$("#quickColor").addEventListener("input",e=>updateQuick(e.target.value));$("#randomQuick").onclick=()=>updateQuick(randomHex());$("#resetQuick").onclick=()=>updateQuick("#6c63ff");
+$$("[data-copy]").forEach(b=>b.addEventListener("click",()=>{const el=$("#"+b.dataset.copy);copy(el.textContent)}));
+async function copy(text){try{await navigator.clipboard.writeText(text);toast()}catch{toast("Copy failed")}}
+function converter(){try{let c=parseColor($("#inputFormat").value,$("#converterInput").value),items=[["HEX",rgbToHex(c)],["RGB",fmtRgb(c)],["HSL",fmtHsl(c)],["HSV",fmtHsv(c)],["HSB",fmtHsv(c)],["CMYK",cmyk(c)]];$("#convertError").textContent="";$("#converterResults").innerHTML=items.map(([k,v])=>`<div class="result-box"><span>${k}</span><b>${v}</b><button data-val="${v.replaceAll('"',"&quot;")}">Copy</button></div>`).join("");$$(".result-box button").forEach(x=>x.onclick=()=>copy(x.dataset.val))}catch(e){$("#convertError").textContent="Please enter a valid color value."}}
+$("#convertBtn").onclick=converter;$("#converterInput").addEventListener("input",converter);$("#inputFormat").addEventListener("change",converter);
+function palette(base){let c=rgbToHsl(hexToRgb(base)),H=c.h,S=c.s,L=c.l;const h=(x)=>hslToRgb((x+360)%360,S,L);const mono=[-28,-14,0,14,28].map(d=>hslToRgb(H,S,clamp(L+d,8,92)));return {
+"Complementary":[h(H),h(H+180),h(H+180)],
+"Analogous":[h(H-30),h(H),h(H+30),h(H+60),h(H-60)],
+"Monochromatic":mono,
+"Triadic":[h(H),h(H+120),h(H+240)],
+"Split Complementary":[h(H),h(H+150),h(H+210)],
+"Tetradic":[h(H),h(H+90),h(H+180),h(H+270)],
+"Square":[h(H),h(H+90),h(H+180),h(H+270)],
+"Warm Palette":[h(15),h(35),h(50),h(5),h(25)],
+"Cool Palette":[h(180),h(205),h(220),h(245),h(160)],
+"Pastel Palette":[hslToRgb(H,55,88),hslToRgb(H+35,55,88),hslToRgb(H+70,55,88),hslToRgb(H+150,55,88),hslToRgb(H+210,55,88)]
+}}
+function renderPalette(){let base=$("#paletteBase").value,p=palette(base);$("#paletteGroups").innerHTML=Object.entries(p).map(([name,arr])=>`<div class="palette-group"><h3>${name}</h3><div class="swatches">${arr.map(c=>{let x=rgbToHex(c);return `<div class="swatch" style="background:${x}" data-hex="${x}">${x}</div>`}).join("")}</div></div>`).join("");$$(".swatch").forEach(s=>s.onclick=()=>copy(s.dataset.hex))}
+$("#generatePalette").onclick=renderPalette;$("#paletteBase").oninput=renderPalette;$("#randomPalette").onclick=()=>{$("#paletteBase").value=randomHex();renderPalette()};$("#copyPalette").onclick=()=>{let a=[...document.querySelectorAll(".swatch")].map(x=>x.dataset.hex);copy(a.join(", "))};
+function gradient(){let t=$("#gradType").value,a=$("#grad1").value,b=$("#grad2").value,c=$("#grad3").value,ang=$("#gradAngle").value,stop=$("#gradStop").value,stops=`${a} 0%, ${b} ${stop}%, ${c} 100%`,css=t==="linear"?`linear-gradient(${ang}deg, ${stops})`:t==="radial"?`radial-gradient(circle, ${stops})`:`conic-gradient(from ${ang}deg, ${stops})`;$("#gradientPreview").style.background=css;$("#gradientCss").textContent=`background: ${css};`;$("#angleOut").value=ang+"°";$("#angleOut").textContent=ang+"°";$("#stopOut").value=stop+"%";$("#stopOut").textContent=stop+"%"}
+["gradType","grad1","grad2","grad3","gradAngle","gradStop"].forEach(id=>$("#"+id).addEventListener("input",gradient));$("#randomGradient").onclick=()=>{$("#grad1").value=randomHex();$("#grad2").value=randomHex();$("#grad3").value=randomHex();$("#gradAngle").value=Math.floor(Math.random()*361);$("#gradStop").value=25+Math.floor(Math.random()*51);gradient()};$("#resetGradient").onclick=()=>{$("#grad1").value="#ff4ecd";$("#grad2").value="#00c2ff";$("#grad3").value="#6c63ff";$("#gradAngle").value=135;$("#gradStop").value=50;gradient()};
+function luminance(c){let a=[c.r,c.g,c.b].map(x=>{x/=255;return x<=.03928?x/12.92:Math.pow((x+.055)/1.055,2.4)});return .2126*a[0]+.7152*a[1]+.0722*a[2]}
+function contrast(){let f=hexToRgb($("#fg").value),b=hexToRgb($("#bg").value),r=(Math.max(luminance(f),luminance(b))+.05)/(Math.min(luminance(f),luminance(b))+.05);$("#ratio").textContent=r.toFixed(2)+":1";$("#contrastDemo").style.color=$("#fg").value;$("#contrastDemo").style.background=$("#bg").value;const pass=(x)=>r>=x?"✓ Pass":"✕ Fail";$("#checks").innerHTML=`<div class="check">Normal AA: ${pass(4.5)}</div><div class="check">Normal AAA: ${pass(7)}</div><div class="check">Large AA: ${pass(3)}</div><div class="check">Large AAA: ${pass(4.5)}</div>`}
+["fg","bg"].forEach(id=>$("#"+id).addEventListener("input",contrast));
+function imageAnalyze(file){if(!file)return;let img=new Image, url=URL.createObjectURL(file);img.onload=()=>{let c=$("#imageCanvas"),ctx=c.getContext("2d"),w=500,h=Math.round(img.height/img.width*w);c.width=w;c.height=h;ctx.drawImage(img,0,0,w,h);let data=ctx.getImageData(0,0,w,h).data,map=new Map();for(let i=0;i<data.length;i+=16){let r=data[i],g=data[i+1],b=data[i+2],a=data[i+3];if(a<80)continue;let rr=Math.round(r/32)*32,gg=Math.round(g/32)*32,bb=Math.round(b/32)*32,k=`${rr},${gg},${bb}`;map.set(k,(map.get(k)||0)+1)}let top=[...map.entries()].sort((a,b)=>b[1]-a[1]).slice(0,10);$("#dominantColors").innerHTML=top.map(([k])=>{let [r,g,b]=k.split(",").map(Number),x=rgbToHex({r,g,b});return `<div class="dominant" style="background:${x}" data-hex="${x}">${x}</div>`}).join("");$$(".dominant").forEach(x=>x.onclick=()=>copy(x.dataset.hex));$("#downloadPalette").onclick=()=>download("mp-color-palette.txt",top.map(([k])=>rgbToHex(Object.fromEntries(["r","g","b"].map((n,i)=>[n,+k.split(",")[i]])))).join("\n"));URL.revokeObjectURL(url)};img.src=url}
+$("#imageInput").onchange=e=>imageAnalyze(e.target.files[0]);$("#downloadPalette").onclick=()=>toast("Upload an image first");
+function imagePick(file){if(!file)return;let img=new Image,url=URL.createObjectURL(file);img.onload=()=>{let c=$("#imageCanvas"),ctx=c.getContext("2d"),w=600,h=Math.round(img.height/img.width*w);c.width=w;c.height=h;ctx.drawImage(img,0,0,w,h);c.onclick=e=>{let r=c.getBoundingClientRect(),x=Math.floor((e.clientX-r.left)*c.width/r.width),y=Math.floor((e.clientY-r.top)*c.height/r.height),p=ctx.getImageData(x,y,1,1).data,hex=rgbToHex({r:p[0],g:p[1],b:p[2]});$("#pickedSwatch").style.background=hex;$("#pickedHex").textContent=hex;$("#pickedRgb").textContent=fmtRgb({r:p[0],g:p[1],b:p[2]})};URL.revokeObjectURL(url)};img.src=url}
+$("#pickImageInput").onchange=e=>imagePick(e.target.files[0]);
+function download(name,text){let a=document.createElement("a");a.href=URL.createObjectURL(new Blob([text],{type:"text/plain"}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),500)}
+$("#toolSearch").addEventListener("input",e=>{let q=e.target.value.toLowerCase();$$(".tool-tile").forEach(x=>x.hidden=!x.dataset.name.includes(q))});
+$("#menuBtn").onclick=()=>$("#nav").classList.toggle("open");$$(".header nav a").forEach(a=>a.onclick=()=>$("#nav").classList.remove("open"));
+$("#themeBtn").onclick=()=>{document.body.classList.toggle("dark");localStorage.setItem("mcl:theme",document.body.classList.contains("dark")?"dark":"light");$("#themeBtn").textContent=document.body.classList.contains("dark")?"☀":"☾"};if(localStorage.getItem("mcl:theme")==="dark"){$("body").classList.add("dark");$("#themeBtn").textContent="☀"}
+window.addEventListener("scroll",()=>{let h=document.documentElement.scrollHeight-innerHeight,$=(scrollY/h)*100;$("#progress").style.width=Math.min(100,$)+"%";$("#backTop").classList.toggle("show",scrollY>500)});
+$("#backTop").onclick=()=>scrollTo({top:0,behavior:"smooth"});
+updateQuick(localStorage.getItem("mcl:lastColor")||"#6c63ff");converter();renderPalette();gradient();contrast();
+})();'''
+
+(out/"index.html").write_text(index_html, encoding="utf-8")
+(out/"style.css").write_text(style_css, encoding="utf-8")
+(out/"script.js").write_text(script_js, encoding="utf-8")
+
+# Zip the complete GitHub Pages-ready project
+import zipfile
+zip_path = Path("/mnt/data/MP_Color_Lab_GitHub_Pages.zip")
+with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as z:
+    for p in out.iterdir():
+        z.write(p, arcname=p.name)
+
+print(f"Created: {zip_path}")
+print("Files:", ", ".join(p.name for p in out.iterdir()))
