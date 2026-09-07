@@ -9,42 +9,202 @@
     <meta name="author" content="MP Digital Hub">
     <link rel="canonical" href="https://mpcolorlab.online/">
 
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://mpcolorlab.online/">
-    <meta property="og:title" content="MP Color Lab – Free Online Color Tools">
-    <meta property="og:description" content="Explore, create, convert, and master colors with browser-based online tools by MP Digital Hub.">
-    <meta property="og:image" content="https://mpcolorlab.online/og-image.png">
-
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="MP Color Lab – Free Online Color Tools">
-    <meta name="twitter:description" content="Explore, create, convert, and master colors with browser-based online tools by MP Digital Hub.">
-
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' stop-color='%238b5cf6'/><stop offset='50%' stop-color='%233b82f6'/><stop offset='100%' stop-color='%2306b6d4'/></linearGradient></defs><path d='M30,15 L70,15 L60,45 L78,75 C83,83 77,90 68,90 L32,90 C23,90 17,83 22,75 L40,45 Z' fill='none' stroke='url(%23g)' stroke-width='8' stroke-linejoin='round'/><circle cx='50' cy='70' r='10' fill='%23ec4899'/><circle cx='40' cy='80' r='5' fill='%23eab308'/><circle cx='60' cy='78' r='6' fill='%2310b981'/></svg>">
 
-    <link rel="stylesheet" href="style.css">
+    <style>
+        /* CSS DESIGN SYSTEM & RESPONSIVE STYLES */
+        :root {
+            --primary: #8b5cf6;
+            --primary-hover: #7c3aed;
+            --secondary: #3b82f6;
+            --accent: #ec4899;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --bg-main: #0f172a;
+            --bg-surface: #1e293b;
+            --bg-glass: rgba(30, 41, 59, 0.7);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 20px;
+            --shadow-md: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+            --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+        }
 
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebApplication",
-      "name": "MP Color Lab",
-      "url": "https://mpcolorlab.online/",
-      "description": "Free online browser-based color utility suite for designers, developers, and creators.",
-      "applicationCategory": "DeveloperApplication",
-      "operatingSystem": "All",
-      "author": {
-        "@type": "Organization",
-        "name": "MP Digital Hub"
-      }
-    }
-    </script>
+        html.light {
+            --bg-main: #f8fafc;
+            --bg-surface: #ffffff;
+            --bg-glass: rgba(255, 255, 255, 0.8);
+            --border-color: rgba(0, 0, 0, 0.1);
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --shadow-md: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: var(--font-sans); background-color: var(--bg-main); color: var(--text-main); line-height: 1.6; transition: background-color 0.3s ease, color 0.3s ease; overflow-x: hidden; }
+
+        .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+        .max-w-md { max-width: 800px; }
+        .section { padding: 4rem 0; }
+        .bg-surface { background-color: var(--bg-surface); }
+        .mt-1 { margin-top: 0.75rem; }
+        .mt-2 { margin-top: 1.5rem; }
+        .mt-3 { margin-top: 2.5rem; }
+        .my-2 { margin-top: 2rem; margin-bottom: 2rem; }
+        .text-mono { font-family: var(--font-mono); }
+        .text-muted { color: var(--text-muted); }
+        .small { font-size: 0.875rem; }
+        .justify-center { justify-content: center; }
+
+        .text-gradient {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .grid { display: grid; gap: 1.5rem; }
+        .grid-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+        .grid-3 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+
+        .glass-card, .card {
+            background: var(--bg-glass);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-md);
+        }
+
+        .header {
+            position: sticky; top: 0; z-index: 100;
+            background: var(--bg-glass); backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .header-container { display: flex; align-items: center; justify-content: space-between; height: 70px; }
+        .logo { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; color: var(--text-main); }
+        .brand-name { font-weight: 800; font-size: 1.25rem; display: block; }
+        .brand-sub { font-size: 0.7rem; color: var(--text-muted); display: block; }
+
+        .nav-desktop { display: flex; gap: 1.25rem; }
+        .nav-link, .mobile-nav-link { color: var(--text-muted); text-decoration: none; font-weight: 500; font-size: 0.95rem; transition: color 0.2s; }
+        .nav-link:hover, .mobile-nav-link:hover { color: var(--primary); }
+
+        .header-actions { display: flex; align-items: center; gap: 1rem; }
+        .btn-icon { background: transparent; border: 1px solid var(--border-color); color: var(--text-main); padding: 0.5rem; border-radius: var(--radius-sm); cursor: pointer; }
+
+        html.dark .icon-sun { display: inline; } html.dark .icon-moon { display: none; }
+        html.light .icon-sun { display: none; } html.light .icon-moon { display: inline; }
+
+        .hamburger-btn { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; }
+        .hamburger-btn span { width: 24px; height: 2px; background-color: var(--text-main); }
+        .mobile-menu { display: none; flex-direction: column; background: var(--bg-surface); padding: 1rem 1.5rem; border-bottom: 1px solid var(--border-color); }
+        .mobile-menu.active { display: flex; }
+
+        .btn { display: inline-flex; align-items: center; justify-content: center; padding: 0.625rem 1.25rem; border-radius: var(--radius-sm); font-weight: 600; cursor: pointer; text-decoration: none; border: none; transition: all 0.2s; }
+        .btn-primary { background: var(--primary); color: #ffffff; } .btn-primary:hover { background: var(--primary-hover); }
+        .btn-secondary { background: var(--secondary); color: #ffffff; }
+        .btn-outline { background: transparent; border: 1px solid var(--border-color); color: var(--text-main); }
+        .btn-sm { padding: 0.35rem 0.75rem; font-size: 0.85rem; }
+        .btn-lg { padding: 0.85rem 1.75rem; font-size: 1.05rem; }
+        .btn-copy { background: var(--border-color); border: none; color: var(--text-main); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem; cursor: pointer; }
+        .btn-group { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+
+        .hero-section { padding: 5rem 0 3rem; }
+        .hero-container { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 2rem; align-items: center; }
+        .badge { background: rgba(139, 92, 246, 0.15); color: var(--primary); padding: 0.35rem 0.85rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600; }
+        .hero-title { font-size: 3rem; line-height: 1.15; margin: 1rem 0; }
+        .hero-subtitle { color: var(--text-muted); font-size: 1.15rem; margin-bottom: 2rem; }
+        .hero-cta-group { display: flex; gap: 1rem; }
+
+        .visual-card { text-align: center; position: relative; }
+        .visual-gradient-box { height: 180px; border-radius: var(--radius-sm); background: linear-gradient(135deg, #8b5cf6, #ec4899); }
+        .visual-info { display: flex; justify-content: center; gap: 1rem; margin-top: 1rem; }
+        .v-badge { background: var(--bg-main); padding: 0.5rem 1rem; border-radius: 20px; font-family: var(--font-mono); font-size: 0.85rem; }
+
+        .form-group { margin-bottom: 1rem; display: flex; flex-direction: column; gap: 0.35rem; }
+        .form-control { background: var(--bg-main); border: 1px solid var(--border-color); color: var(--text-main); padding: 0.65rem; border-radius: var(--radius-sm); outline: none; }
+        .color-picker-large { width: 60px; height: 50px; border: none; background: none; cursor: pointer; }
+        .color-picker-sm { width: 40px; height: 40px; border: none; background: none; cursor: pointer; }
+        .picker-input-wrapper { display: flex; align-items: center; gap: 0.75rem; }
+
+        .color-preview-box { height: 120px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; margin-top: 1rem; background-color: #8b5cf6; }
+        .preview-text { background: rgba(0, 0, 0, 0.4); color: #ffffff; padding: 0.35rem 0.85rem; border-radius: 20px; font-family: var(--font-mono); }
+        .color-values-grid { display: grid; gap: 0.75rem; }
+        .value-card { background: var(--bg-main); padding: 0.75rem 1rem; border-radius: var(--radius-sm); display: flex; justify-content: space-between; align-items: center; }
+        .val-label { font-size: 0.8rem; color: var(--text-muted); font-weight: 700; }
+        .color-bar-preview { height: 20px; border-radius: var(--radius-sm); transition: background-color 0.2s; }
+
+        .palette-display-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 0.75rem; }
+        .palette-card { border-radius: var(--radius-sm); overflow: hidden; background: var(--bg-main); text-align: center; }
+        .palette-swatch { height: 80px; }
+        .palette-meta { padding: 0.5rem; font-size: 0.75rem; }
+
+        .shades-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 0.5rem; }
+        .shade-box { height: 60px; border-radius: 6px; display: flex; align-items: flex-end; padding: 4px; font-size: 0.65rem; font-family: var(--font-mono); cursor: pointer; }
+
+        .gradient-display-box { height: 200px; border-radius: var(--radius-sm); background: linear-gradient(135deg, #ec4899, #8b5cf6); }
+        .css-output-box { background: var(--bg-main); padding: 0.75rem; border-radius: var(--radius-sm); display: flex; justify-content: space-between; align-items: center; word-break: break-all; }
+
+        .contrast-preview-card { padding: 1.5rem; border-radius: var(--radius-sm); background: #0f172a; color: #ffffff; }
+        .contrast-stats { display: flex; gap: 1rem; flex-wrap: wrap; }
+        .stat-box { background: var(--bg-main); padding: 0.75rem; border-radius: var(--radius-sm); flex: 1; min-width: 120px; }
+        .badge-success { background: var(--success); color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; }
+        .badge-fail { background: var(--danger); color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; }
+
+        .image-canvas { max-width: 100%; height: auto; border-radius: var(--radius-sm); background: var(--bg-main); }
+        .color-swatch-sm { width: 30px; height: 30px; border-radius: 4px; border: 1px solid var(--border-color); }
+
+        .search-box { display: flex; align-items: center; gap: 0.75rem; }
+        .search-box input { flex: 1; border: none; background: transparent; color: var(--text-main); outline: none; }
+
+        .ad-placeholder { border: 1px dashed var(--border-color); border-radius: var(--radius-sm); padding: 1rem; text-align: center; background: rgba(0, 0, 0, 0.05); }
+        .ad-label { font-size: 0.7rem; color: var(--text-muted); letter-spacing: 1px; }
+
+        .privacy-note { background: rgba(16, 185, 129, 0.1); border: 1px solid var(--success); padding: 0.75rem; border-radius: var(--radius-sm); font-size: 0.85rem; }
+
+        .accordion-item { border-bottom: 1px solid var(--border-color); }
+        .accordion-header { width: 100%; padding: 1rem 0; background: none; border: none; color: var(--text-main); font-weight: 600; text-align: left; display: flex; justify-content: space-between; cursor: pointer; }
+        .accordion-body { padding-bottom: 1rem; color: var(--text-muted); display: none; }
+        .accordion-item.active .accordion-body { display: block; }
+
+        .toast-container { position: fixed; bottom: 20px; left: 20px; z-index: 1000; display: flex; flex-direction: column; gap: 0.5rem; }
+        .toast { background: var(--bg-surface); color: var(--text-main); border-left: 4px solid var(--primary); padding: 0.75rem 1.25rem; border-radius: 4px; box-shadow: var(--shadow-md); font-size: 0.85rem; }
+
+        .floating-social-container { position: fixed; bottom: 20px; right: 20px; z-index: 99; display: flex; flex-direction: column; gap: 0.75rem; }
+        .float-btn { width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; box-shadow: var(--shadow-md); position: relative; text-decoration: none; }
+        .float-ig { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%); }
+        .float-wa { background-color: #25d366; }
+        .float-btn .tooltip { position: absolute; right: 58px; background: rgba(0,0,0,0.8); color: #fff; padding: 4px 8px; border-radius: 4px; font-size: 0.75rem; white-space: nowrap; display: none; }
+        .float-btn:hover .tooltip { display: block; }
+
+        .footer { background: var(--bg-surface); border-top: 1px solid var(--border-color); padding-top: 3rem; margin-top: 4rem; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; padding-bottom: 2rem; }
+        .footer-col h4 { margin-bottom: 1rem; }
+        .footer-col ul { list-style: none; }
+        .footer-col li { margin-bottom: 0.5rem; }
+        .footer-col a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; }
+        .footer-col a:hover { color: var(--primary); }
+        .footer-bottom { border-top: 1px solid var(--border-color); padding: 1.5rem 0; text-align: center; color: var(--text-muted); font-size: 0.85rem; }
+
+        @media (max-width: 900px) {
+            .hero-container { grid-template-columns: 1fr; text-align: center; }
+            .hero-cta-group { justify-content: center; }
+            .nav-desktop, .hide-mobile { display: none; }
+            .hamburger-btn { display: flex; }
+        }
+    </style>
 </head>
 <body>
 
     <header class="header">
         <div class="container header-container">
             <a href="#home" class="logo">
-                <svg class="logo-svg" viewBox="0 0 100 100" width="40" height="40">
+                <svg viewBox="0 0 100 100" width="40" height="40">
                     <defs>
                         <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                             <stop offset="0%" stop-color="#8b5cf6"/>
@@ -76,12 +236,12 @@
             </nav>
 
             <div class="header-actions">
-                <button id="theme-toggle" class="btn-icon" aria-label="Toggle Light/Dark Theme">
+                <button id="theme-toggle" class="btn-icon" aria-label="Toggle Theme">
                     <span class="icon-sun">☀️</span>
                     <span class="icon-moon">🌙</span>
                 </button>
                 <a href="#more-tools" class="btn btn-primary hide-mobile">Explore Tools</a>
-                <button id="hamburger" class="hamburger-btn" aria-label="Toggle Navigation Menu">
+                <button id="hamburger" class="hamburger-btn" aria-label="Toggle Navigation">
                     <span></span><span></span><span></span>
                 </button>
             </div>
@@ -105,9 +265,9 @@
         <section class="hero-section">
             <div class="container hero-container">
                 <div class="hero-content">
-                    <span class="badge">100% Free • Browser-Based • No Backend Required</span>
+                    <span class="badge">100% Free • Browser-Based • Fast Engine</span>
                     <h1 class="hero-title">Your Complete <span class="text-gradient">Online Color</span> Toolkit</h1>
-                    <p class="hero-subtitle">Pick, convert, generate, compare, and master beautiful colors — all in one place. Engineered for designers, developers, and digital creators.</p>
+                    <p class="hero-subtitle">Pick, convert, generate, compare, and master beautiful colors — all in one place. Engineered for designers and developers.</p>
                     <div class="hero-cta-group">
                         <a href="#more-tools" class="btn btn-primary btn-lg">Explore Color Tools</a>
                         <a href="#picker" class="btn btn-secondary btn-lg">Pick a Color</a>
@@ -116,11 +276,6 @@
 
                 <div class="hero-visual">
                     <div class="glass-card visual-card">
-                        <div class="visual-circles">
-                            <div class="v-circle c1"></div>
-                            <div class="v-circle c2"></div>
-                            <div class="v-circle c3"></div>
-                        </div>
                         <div class="visual-gradient-box" id="hero-gradient-preview"></div>
                         <div class="visual-info">
                             <div class="v-badge"><span id="hero-hex-label">#8B5CF6</span></div>
@@ -135,7 +290,7 @@
             <div class="container">
                 <div class="search-box glass-card">
                     <span class="search-icon">🔍</span>
-                    <input type="text" id="tool-search-input" placeholder="Search color tools (e.g., gradient, palette, contrast, hex, image)..." aria-label="Search color tools">
+                    <input type="text" id="tool-search-input" placeholder="Search color tools (gradient, palette, contrast, hex, image)...">
                     <button class="btn btn-sm btn-primary" onclick="clearToolSearch()">Clear</button>
                 </div>
             </div>
@@ -157,7 +312,7 @@
                 <div class="grid grid-2 glass-card tool-container">
                     <div class="picker-controls">
                         <div class="form-group">
-                            <label for="main-native-picker">Choose Color Visualizer:</label>
+                            <label for="main-native-picker">Choose Color:</label>
                             <div class="picker-input-wrapper">
                                 <input type="color" id="main-native-picker" value="#8b5cf6" class="color-picker-large">
                                 <input type="text" id="main-hex-input" value="#8b5cf6" class="form-control text-mono" style="font-size: 1.25rem;">
@@ -175,36 +330,12 @@
                     </div>
 
                     <div class="color-values-grid">
-                        <div class="value-card">
-                            <span class="val-label">HEX</span>
-                            <span class="val-code text-mono" id="val-hex">#8b5cf6</span>
-                            <button class="btn-copy" onclick="copyText('val-hex')">Copy</button>
-                        </div>
-                        <div class="value-card">
-                            <span class="val-label">RGB</span>
-                            <span class="val-code text-mono" id="val-rgb">rgb(139, 92, 246)</span>
-                            <button class="btn-copy" onclick="copyText('val-rgb')">Copy</button>
-                        </div>
-                        <div class="value-card">
-                            <span class="val-label">HSL</span>
-                            <span class="val-code text-mono" id="val-hsl">hsl(258, 90%, 66%)</span>
-                            <button class="btn-copy" onclick="copyText('val-hsl')">Copy</button>
-                        </div>
-                        <div class="value-card">
-                            <span class="val-label">HSV / HSB</span>
-                            <span class="val-code text-mono" id="val-hsv">hsv(258, 63%, 96%)</span>
-                            <button class="btn-copy" onclick="copyText('val-hsv')">Copy</button>
-                        </div>
-                        <div class="value-card">
-                            <span class="val-label">CMYK (Approx)</span>
-                            <span class="val-code text-mono" id="val-cmyk">cmyk(43%, 63%, 0%, 4%)</span>
-                            <button class="btn-copy" onclick="copyText('val-cmyk')">Copy</button>
-                        </div>
-                        <div class="value-card">
-                            <span class="val-label">Color Name</span>
-                            <span class="val-code text-mono" id="val-name">Medium Purple</span>
-                            <button class="btn-copy" onclick="copyText('val-name')">Copy</button>
-                        </div>
+                        <div class="value-card"><span class="val-label">HEX</span><span class="val-code text-mono" id="val-hex">#8b5cf6</span><button class="btn-copy" onclick="copyText('val-hex')">Copy</button></div>
+                        <div class="value-card"><span class="val-label">RGB</span><span class="val-code text-mono" id="val-rgb">rgb(139, 92, 246)</span><button class="btn-copy" onclick="copyText('val-rgb')">Copy</button></div>
+                        <div class="value-card"><span class="val-label">HSL</span><span class="val-code text-mono" id="val-hsl">hsl(258, 90%, 66%)</span><button class="btn-copy" onclick="copyText('val-hsl')">Copy</button></div>
+                        <div class="value-card"><span class="val-label">HSV / HSB</span><span class="val-code text-mono" id="val-hsv">hsv(258, 63%, 96%)</span><button class="btn-copy" onclick="copyText('val-hsv')">Copy</button></div>
+                        <div class="value-card"><span class="val-label">CMYK</span><span class="val-code text-mono" id="val-cmyk">cmyk(43%, 63%, 0%, 4%)</span><button class="btn-copy" onclick="copyText('val-cmyk')">Copy</button></div>
+                        <div class="value-card"><span class="val-label">Color Name</span><span class="val-code text-mono" id="val-name">Medium Purple</span><button class="btn-copy" onclick="copyText('val-name')">Copy</button></div>
                     </div>
                 </div>
             </div>
@@ -214,25 +345,16 @@
             <div class="container">
                 <div class="section-header">
                     <h2>Universal Color Format Converter</h2>
-                    <p>Enter any HEX, RGB, or HSL color code to automatically convert across all primary color spaces.</p>
+                    <p>Convert seamlessly across primary color format systems.</p>
                 </div>
 
                 <div class="glass-card tool-container">
                     <div class="grid grid-3">
-                        <div class="form-group">
-                            <label for="conv-hex">HEX Input</label>
-                            <input type="text" id="conv-hex" class="form-control text-mono" placeholder="#8B5CF6">
-                        </div>
-                        <div class="form-group">
-                            <label for="conv-rgb">RGB Input</label>
-                            <input type="text" id="conv-rgb" class="form-control text-mono" placeholder="rgb(139, 92, 246)">
-                        </div>
-                        <div class="form-group">
-                            <label for="conv-hsl">HSL Input</label>
-                            <input type="text" id="conv-hsl" class="form-control text-mono" placeholder="hsl(258, 90%, 66%)">
-                        </div>
+                        <div class="form-group"><label>HEX Input</label><input type="text" id="conv-hex" class="form-control text-mono" placeholder="#8B5CF6"></div>
+                        <div class="form-group"><label>RGB Input</label><input type="text" id="conv-rgb" class="form-control text-mono" placeholder="rgb(139, 92, 246)"></div>
+                        <div class="form-group"><label>HSL Input</label><input type="text" id="conv-hsl" class="form-control text-mono" placeholder="hsl(258, 90%, 66%)"></div>
                     </div>
-                    <div id="conv-error" class="error-msg"></div>
+                    <div id="conv-error" style="color:var(--danger);" class="mt-1"></div>
                     <div class="color-bar-preview mt-2" id="conv-preview-bar"></div>
                 </div>
             </div>
@@ -242,32 +364,26 @@
             <div class="container">
                 <div class="section-header">
                     <h2>Harmony & Color Palette Generator</h2>
-                    <p>Generate color schemes based on color theory rule sets.</p>
+                    <p>Build balanced color harmonies automatically based on mathematical rules.</p>
                 </div>
 
                 <div class="glass-card tool-container">
-                    <div class="palette-controls">
-                        <div class="form-group">
-                            <label for="palette-base-color">Base Color:</label>
-                            <input type="color" id="palette-base-color" value="#3b82f6" class="color-picker-sm">
-                        </div>
-                        <div class="form-group">
-                            <label for="palette-mode">Harmony Rule:</label>
-                            <select id="palette-mode" class="form-control" onchange="generatePalette()">
-                                <option value="complementary">Complementary</option>
-                                <option value="analogous">Analogous</option>
-                                <option value="triadic">Triadic</option>
-                                <option value="split">Split Complementary</option>
-                                <option value="tetradic">Tetradic (Square)</option>
-                                <option value="monochromatic">Monochromatic</option>
-                            </select>
-                        </div>
+                    <div class="picker-controls inline-flex" style="display:flex; gap:1rem; align-items:center; flex-wrap:wrap;">
+                        <label>Base Color:</label>
+                        <input type="color" id="palette-base-color" value="#3b82f6" class="color-picker-sm">
+                        <select id="palette-mode" class="form-control" onchange="generatePalette()">
+                            <option value="complementary">Complementary</option>
+                            <option value="analogous">Analogous</option>
+                            <option value="triadic">Triadic</option>
+                            <option value="split">Split Complementary</option>
+                            <option value="tetradic">Tetradic (Square)</option>
+                            <option value="monochromatic">Monochromatic</option>
+                        </select>
                         <button class="btn btn-primary" onclick="generatePalette()">Generate Scheme</button>
                         <button class="btn btn-secondary" onclick="exportPaletteJSON()">Export JSON</button>
                     </div>
 
-                    <div id="palette-cards-container" class="palette-display-grid mt-2">
-                        </div>
+                    <div id="palette-cards-container" class="palette-display-grid mt-2"></div>
                 </div>
             </div>
         </section>
@@ -276,21 +392,21 @@
             <div class="container">
                 <div class="section-header">
                     <h2>Shades & Tints Generator</h2>
-                    <p>Generate lighter tints and darker shades from any base color for UI design scales.</p>
+                    <p>Produce light tints and dark shades scales for modern application UI systems.</p>
                 </div>
 
                 <div class="glass-card tool-container">
-                    <div class="picker-controls inline-flex">
-                        <label for="shades-base-color">Base Color:</label>
+                    <div class="picker-controls" style="display:flex; gap:1rem; align-items:center;">
+                        <label>Base Color:</label>
                         <input type="color" id="shades-base-color" value="#06b6d4" class="color-picker-sm" onchange="generateShadesTints()">
-                        <input type="text" id="shades-hex-text" value="#06b6d4" class="form-control text-mono" style="max-width: 140px;" oninput="generateShadesTints()">
+                        <input type="text" id="shades-hex-text" value="#06b6d4" class="form-control text-mono" style="max-width:140px;" oninput="generateShadesTints()">
                     </div>
 
                     <h4 class="mt-2">Lighter Tints</h4>
-                    <div id="tints-container" class="shades-grid"></div>
+                    <div id="tints-container" class="shades-grid mt-1"></div>
 
                     <h4 class="mt-2">Darker Shades</h4>
-                    <div id="shades-container" class="shades-grid"></div>
+                    <div id="shades-container" class="shades-grid mt-1"></div>
                 </div>
             </div>
         </section>
@@ -298,14 +414,14 @@
         <section id="gradients" class="section">
             <div class="container">
                 <div class="section-header">
-                    <h2>Advanced CSS Gradient Generator</h2>
-                    <p>Design linear, radial, and conic gradients with live CSS code output.</p>
+                    <h2>CSS Gradient Generator</h2>
+                    <p>Design modern CSS gradients with interactive linear, radial, and conic modes.</p>
                 </div>
 
                 <div class="grid grid-2 glass-card tool-container">
                     <div class="gradient-controls">
                         <div class="form-group">
-                            <label for="grad-type">Gradient Type:</label>
+                            <label>Gradient Type:</label>
                             <select id="grad-type" class="form-control" onchange="updateGradient()">
                                 <option value="linear">Linear</option>
                                 <option value="radial">Radial</option>
@@ -313,17 +429,17 @@
                             </select>
                         </div>
                         <div class="form-group" id="angle-group">
-                            <label for="grad-angle">Angle (Degrees): <span id="grad-angle-val">135</span>°</label>
+                            <label>Angle: <span id="grad-angle-val">135</span>°</label>
                             <input type="range" id="grad-angle" min="0" max="360" value="135" class="form-control" oninput="updateGradient()">
                         </div>
 
                         <div class="grid grid-2">
                             <div class="form-group">
-                                <label for="grad-c1">Color Stop 1:</label>
+                                <label>Color 1:</label>
                                 <input type="color" id="grad-c1" value="#ec4899" class="color-picker-sm" onchange="updateGradient()">
                             </div>
                             <div class="form-group">
-                                <label for="grad-c2">Color Stop 2:</label>
+                                <label>Color 2:</label>
                                 <input type="color" id="grad-c2" value="#8b5cf6" class="color-picker-sm" onchange="updateGradient()">
                             </div>
                         </div>
@@ -345,21 +461,21 @@
         <section id="contrast" class="section bg-surface">
             <div class="container">
                 <div class="section-header">
-                    <h2>WCAG Color Contrast Checker</h2>
-                    <p>Ensure text compliance against Web Content Accessibility Guidelines (WCAG 2.1).</p>
+                    <h2>WCAG Contrast Checker</h2>
+                    <p>Test background and foreground text standard accessibility contrast ratios.</p>
                 </div>
 
                 <div class="grid grid-2 glass-card tool-container">
                     <div class="contrast-inputs">
                         <div class="form-group">
-                            <label for="contrast-fg">Text (Foreground) Color:</label>
+                            <label>Text Color (Foreground):</label>
                             <div class="picker-input-wrapper">
                                 <input type="color" id="contrast-fg" value="#ffffff" class="color-picker-sm" onchange="calculateContrast()">
                                 <input type="text" id="contrast-fg-text" value="#ffffff" class="form-control text-mono" oninput="calculateContrast()">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="contrast-bg">Background Color:</label>
+                            <label>Background Color:</label>
                             <div class="picker-input-wrapper">
                                 <input type="color" id="contrast-bg" value="#0f172a" class="color-picker-sm" onchange="calculateContrast()">
                                 <input type="text" id="contrast-bg-text" value="#0f172a" class="form-control text-mono" oninput="calculateContrast()">
@@ -370,21 +486,21 @@
 
                     <div class="contrast-results">
                         <div id="contrast-preview-card" class="contrast-preview-card">
-                            <h3>Preview Heading text</h3>
-                            <p>The quick brown fox jumps over the lazy dog. Sample paragraph text for accessibility evaluation.</p>
+                            <h3>Preview Heading Text</h3>
+                            <p>The quick brown fox jumps over the lazy dog. Web accessibility readability demonstration.</p>
                         </div>
 
                         <div class="contrast-stats mt-1">
                             <div class="stat-box">
-                                <span class="stat-label">Contrast Ratio</span>
+                                <span class="stat-label">Ratio</span>
                                 <span class="stat-value text-gradient" id="contrast-ratio-val">15.8:1</span>
                             </div>
                             <div class="stat-box">
-                                <span class="stat-label">Normal Text (AA)</span>
+                                <span class="stat-label">AA Normal</span>
                                 <span class="badge badge-success" id="badge-normal-aa">PASS</span>
                             </div>
                             <div class="stat-box">
-                                <span class="stat-label">Large Text (AAA)</span>
+                                <span class="stat-label">AAA Large</span>
                                 <span class="badge badge-success" id="badge-large-aaa">PASS</span>
                             </div>
                         </div>
@@ -396,35 +512,34 @@
         <section id="image-tools" class="section">
             <div class="container">
                 <div class="section-header">
-                    <h2>Image Color Extractor & Eyedropper</h2>
-                    <p>Extract dominant color palettes directly from any image in your browser.</p>
+                    <h2>Image Color Extractor</h2>
+                    <p>Upload image assets locally to pick exact pixels or extract primary color palettes.</p>
                 </div>
 
                 <div class="glass-card tool-container">
                     <div class="privacy-note">
-                        🔒 <strong>Privacy Assurance:</strong> Your image is processed locally inside your browser runtime via HTML5 Canvas. No image data is uploaded to any remote server.
+                        🔒 <strong>Privacy Assurance:</strong> Your uploaded images are processed completely in-browser via Canvas API. No images leave your local device.
                     </div>
 
                     <div class="form-group mt-1">
-                        <label for="img-file-input">Upload Image File:</label>
+                        <label>Upload Image Asset:</label>
                         <input type="file" id="img-file-input" accept="image/*" class="form-control">
                     </div>
 
                     <div class="grid grid-2 mt-2">
                         <div class="image-canvas-wrapper">
                             <canvas id="image-canvas" class="image-canvas"></canvas>
-                            <p class="help-text">Click anywhere on the uploaded image to inspect a specific pixel color.</p>
                         </div>
                         <div class="image-results">
-                            <h4>Inspected Pixel Color</h4>
-                            <div class="picker-input-wrapper">
+                            <h4>Eyedropper Sampled Color</h4>
+                            <div class="picker-input-wrapper mt-1">
                                 <div id="picked-pixel-box" class="color-swatch-sm"></div>
                                 <span id="picked-pixel-code" class="text-mono">#------</span>
                             </div>
 
-                            <h4 class="mt-2">Dominant Extracted Palette</h4>
-                            <div id="extracted-palette-grid" class="palette-display-grid">
-                                <p class="text-muted">Upload an image to extract palette.</p>
+                            <h4 class="mt-2">Extracted Dominant Colors</h4>
+                            <div id="extracted-palette-grid" class="palette-display-grid mt-1">
+                                <p class="text-muted">Upload an image to render colors.</p>
                             </div>
                         </div>
                     </div>
@@ -435,16 +550,15 @@
         <section id="more-tools" class="section bg-surface">
             <div class="container">
                 <div class="section-header">
-                    <h2>More Interactive Color Tools</h2>
-                    <p>Explore tools for color blending, color blindness simulation, CSS variables, and saved favorites.</p>
+                    <h2>More Interactive Tools</h2>
+                    <p>Blend custom ratios, emulate color vision types, and retrieve stored favorites.</p>
                 </div>
 
                 <div class="grid grid-3" id="tools-directory-grid">
-                    <div class="card tool-card" data-category="generator mixer">
-                        <div class="card-icon">🧪</div>
-                        <h3>Color Mixer</h3>
-                        <p>Blend two colors together across progressive step percentages.</p>
-                        <div class="mixer-inputs mt-1">
+                    <div class="card tool-card">
+                        <h3>🧪 Color Mixer</h3>
+                        <p>Mix two colors across percentage blends.</p>
+                        <div class="mixer-inputs mt-1" style="display:flex; gap:0.5rem; align-items:center;">
                             <input type="color" id="mix-c1" value="#ff0000" class="color-picker-sm" onchange="mixColors()">
                             <span>+</span>
                             <input type="color" id="mix-c2" value="#0000ff" class="color-picker-sm" onchange="mixColors()">
@@ -452,21 +566,19 @@
                         <div id="mixer-output-grid" class="shades-grid mt-1"></div>
                     </div>
 
-                    <div class="card tool-card" data-category="accessibility simulator">
-                        <div class="card-icon">👁️</div>
-                        <h3>Color Blindness Filter</h3>
-                        <p>Simulate how a target color is perceived under different color vision deficiencies.</p>
+                    <div class="card tool-card">
+                        <h3>👁️ Vision Simulator</h3>
+                        <p>Simulate color vision differences.</p>
                         <div class="form-group mt-1">
                             <input type="color" id="cb-input" value="#10b981" class="color-picker-sm" onchange="simulateColorBlindness()">
                         </div>
-                        <div id="cb-results-list" class="cb-list"></div>
+                        <div id="cb-results-list"></div>
                     </div>
 
-                    <div class="card tool-card" data-category="developer css">
-                        <div class="card-icon">💻</div>
-                        <h3>CSS Variables Generator</h3>
-                        <p>Generate ready-to-use CSS <code>:root</code> custom properties for system theme architecture.</p>
-                        <button class="btn btn-sm btn-primary mt-1" onclick="generateCssVariables()">Generate Theme Variables</button>
+                    <div class="card tool-card">
+                        <h3>💻 CSS Variables</h3>
+                        <p>Create CSS theme tokens instantly.</p>
+                        <button class="btn btn-sm btn-primary mt-1" onclick="generateCssVariables()">Generate Tokens</button>
                         <div class="css-output-box mt-1">
                             <code id="css-var-code" class="text-mono">:root { --primary: #8b5cf6; }</code>
                             <button class="btn-copy" onclick="copyText('css-var-code')">Copy</button>
@@ -475,107 +587,54 @@
                 </div>
 
                 <div class="glass-card tool-container mt-3">
-                    <h3>⭐ Your Saved Favorite Colors</h3>
+                    <h3>⭐ Stored Favorite Colors</h3>
                     <div id="favorites-grid" class="shades-grid mt-1">
-                        <p class="text-muted">No favorites saved yet. Click 'Save Favorite' in the Color Picker tool.</p>
+                        <p class="text-muted">No stored favorites yet.</p>
                     </div>
-                    <button class="btn btn-sm btn-outline mt-1" onclick="clearFavorites()">Clear Favorites</button>
+                    <button class="btn btn-sm btn-outline mt-1" onclick="clearFavorites()">Clear Stored Favorites</button>
                 </div>
             </div>
         </section>
 
-        <div class="container my-2">
-            <div class="ad-placeholder">
-                <span class="ad-label">ADVERTISEMENT PLACEHOLDER</span>
-            </div>
-        </div>
-
-        <section class="section">
-            <div class="container">
-                <div class="section-header">
-                    <h2>Why Choose MP Color Lab?</h2>
-                    <p>Designed to deliver high performance color workflows without friction.</p>
-                </div>
-
-                <div class="grid grid-3">
-                    <div class="card">
-                        <div class="card-icon">⚡</div>
-                        <h3>100% Browser-Based</h3>
-                        <p>Calculations execute instantly using client-side Web APIs and JavaScript without network latency.</p>
-                    </div>
-                    <div class="card">
-                        <div class="card-icon">🔒</div>
-                        <h3>Privacy Guaranteed</h3>
-                        <p>Uploaded images for palette extraction remain strictly inside your browser frame.</p>
-                    </div>
-                    <div class="card">
-                        <div class="card-icon">📱</div>
-                        <h3>Fully Responsive</h3>
-                        <p>Seamless touch support across smartphones, tablets, and desktop workstations.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="faq" class="section bg-surface">
+        <section id="faq" class="section">
             <div class="container max-w-md">
                 <div class="section-header">
                     <h2>Frequently Asked Questions</h2>
-                    <p>Learn more about MP Color Lab utility features.</p>
                 </div>
 
                 <div class="accordion">
                     <div class="accordion-item">
                         <button class="accordion-header">What is MP Color Lab? <span>+</span></button>
-                        <div class="accordion-body">
-                            MP Color Lab is a suite of web browser color tools created by MP Digital Hub for designers, software engineers, and digital artists.
-                        </div>
+                        <div class="accordion-body">MP Color Lab is a complete online suite for color utilities built completely inside browser client technologies.</div>
                     </div>
                     <div class="accordion-item">
-                        <button class="accordion-header">Is MP Color Lab free to use? <span>+</span></button>
-                        <div class="accordion-body">
-                            Yes, all tools—including palette generation, image color extraction, and contrast testing—are completely free with no user registration.
-                        </div>
-                    </div>
-                    <div class="accordion-item">
-                        <button class="accordion-header">Are my uploaded images sent to any server? <span>+</span></button>
-                        <div class="accordion-body">
-                            No. Image extraction operations run locally via the HTML5 Canvas API inside your browser instance.
-                        </div>
+                        <button class="accordion-header">Is MP Color Lab free? <span>+</span></button>
+                        <div class="accordion-body">Yes, 100% free with no backend account registration requirements.</div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="about" class="section">
+        <section id="about" class="section bg-surface">
             <div class="container max-w-md">
                 <div class="section-header">
-                    <h2>About MP Color Lab</h2>
-                    <p>An initiative by <strong>MP Digital Hub</strong> focused on providing productivity platforms for the web ecosystem.</p>
+                    <h2>About & Support</h2>
+                    <p>Engineered by <strong>MP Digital Hub</strong>.</p>
                 </div>
-            </div>
-        </section>
-
-        <section id="contact" class="section bg-surface">
-            <div class="container max-w-md">
-                <div class="section-header">
-                    <h2>Contact & Feedback</h2>
-                    <p>Have suggestions or feature requests? Connect with our team directly through our social channels.</p>
-                </div>
-                <div class="btn-group justify-center">
-                    <a href="https://wa.me/919131053539" target="_blank" class="btn btn-primary">Chat on WhatsApp</a>
-                    <a href="https://www.instagram.com/mpdigitalhub" target="_blank" class="btn btn-secondary">Follow on Instagram</a>
+                <div class="btn-group justify-center mt-2">
+                    <a href="https://wa.me/919131053539" target="_blank" class="btn btn-primary">WhatsApp Us (+91 9131053539)</a>
+                    <a href="https://www.instagram.com/mpdigitalhub" target="_blank" class="btn btn-secondary">Instagram (@mpdigitalhub)</a>
                 </div>
             </div>
         </section>
     </main>
 
     <div class="floating-social-container">
-        <a href="https://www.instagram.com/mpdigitalhub" target="_blank" class="float-btn float-ig" aria-label="Follow us on Instagram">
+        <a href="https://www.instagram.com/mpdigitalhub" target="_blank" class="float-btn float-ig" aria-label="Instagram">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
             <span class="tooltip">Follow on Instagram</span>
         </a>
-        <a href="https://wa.me/919131053539" target="_blank" class="float-btn float-wa" aria-label="Chat with us on WhatsApp">
+        <a href="https://wa.me/919131053539" target="_blank" class="float-btn float-wa" aria-label="WhatsApp">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
             <span class="tooltip">Chat on WhatsApp</span>
         </a>
@@ -588,34 +647,442 @@
             <div class="footer-col">
                 <div class="brand-name">MP Color Lab</div>
                 <p class="text-muted">Explore. Create. Convert. Master Colors.</p>
-                <p class="text-muted small mt-1">A project by <strong>MP Digital Hub</strong>.</p>
             </div>
             <div class="footer-col">
-                <h4>Quick Links</h4>
+                <h4>Legal</h4>
                 <ul>
-                    <li><a href="#picker">Color Picker</a></li>
-                    <li><a href="#converter">Color Converter</a></li>
-                    <li><a href="#palettes">Palette Generator</a></li>
-                    <li><a href="#gradients">Gradient Tool</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Legal & Info</h4>
-                <ul>
-                    <li><a href="#about">About Us</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                    <li><a href="javascript:void(0)" onclick="alert('Privacy Policy: All processing occurs locally on client browsers.')">Privacy Policy</a></li>
-                    <li><a href="javascript:void(0)" onclick="alert('Terms: Free tool provided as-is without remote storage.')">Terms & Conditions</a></li>
+                    <li><a href="javascript:void(0)" onclick="alert('Privacy Policy: All image processing runs locally in browser storage.')">Privacy Policy</a></li>
+                    <li><a href="javascript:void(0)" onclick="alert('Terms: Free browser utilities provided without external warranties.')">Terms of Use</a></li>
                 </ul>
             </div>
         </div>
         <div class="footer-bottom">
             <div class="container">
-                <p>&copy; 2026 MP Color Lab. All rights reserved. Built for GitHub Pages.</p>
+                <p>&copy; 2026 MP Color Lab. A project by MP Digital Hub.</p>
             </div>
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initTheme();
+            initNavigation();
+            initColorPicker();
+            initUniversalConverter();
+            generatePalette();
+            generateShadesTints();
+            updateGradient();
+            calculateContrast();
+            initImageTools();
+            mixColors();
+            simulateColorBlindness();
+            initSearchFilter();
+            initAccordion();
+            loadFavorites();
+        });
+
+        function initTheme() {
+            const toggleBtn = document.getElementById('theme-toggle');
+            const savedTheme = localStorage.getItem('mp_color_theme') || 'dark';
+            document.documentElement.className = savedTheme;
+            toggleBtn.addEventListener('click', () => {
+                const currentTheme = document.documentElement.className;
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                document.documentElement.className = newTheme;
+                localStorage.setItem('mp_color_theme', newTheme);
+            });
+        }
+
+        function initNavigation() {
+            const hamburger = document.getElementById('hamburger');
+            const mobileMenu = document.getElementById('mobile-menu');
+            hamburger.addEventListener('click', () => mobileMenu.classList.toggle('active'));
+            document.querySelectorAll('.mobile-nav-link').forEach(link => link.addEventListener('click', () => mobileMenu.classList.remove('active')));
+        }
+
+        function hexToRgb(hex) {
+            hex = hex.replace(/^#/, '');
+            if (hex.length === 3) hex = hex.split('').map(c => c + c).join('');
+            const num = parseInt(hex, 16);
+            return isNaN(num) || hex.length !== 6 ? null : { r: (num >> 16) & 255, g: (num >> 8) & 255, b: num & 255 };
+        }
+
+        function rgbToHex(r, g, b) {
+            return "#" + [r, g, b].map(x => {
+                const hex = Math.max(0, Math.min(255, x)).toString(16);
+                return hex.length === 1 ? "0" + hex : hex;
+            }).join('');
+        }
+
+        function rgbToHsl(r, g, b) {
+            r /= 255; g /= 255; b /= 255;
+            const max = Math.max(r, g, b), min = Math.min(r, g, b);
+            let h, s, l = (max + min) / 2;
+            if (max === min) { h = s = 0; } else {
+                const d = max - min;
+                s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+                switch (max) {
+                    case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+                    case g: h = (b - r) / d + 2; break;
+                    case b: h = (r - g) / d + 4; break;
+                }
+                h /= 6;
+            }
+            return { h: Math.round(h * 360), s: Math.round(s * 100), l: Math.round(l * 100) };
+        }
+
+        function hslToRgb(h, s, l) {
+            s /= 100; l /= 100;
+            const k = n => (n + h / 30) % 12;
+            const a = s * Math.min(l, 1 - l);
+            const f = n => l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)));
+            return { r: Math.round(255 * f(0)), g: Math.round(255 * f(8)), b: Math.round(255 * f(4)) };
+        }
+
+        function rgbToHsv(r, g, b) {
+            r /= 255; g /= 255; b /= 255;
+            const max = Math.max(r, g, b), min = Math.min(r, g, b);
+            const d = max - min;
+            let h, s = max === 0 ? 0 : d / max, v = max;
+            if (max === min) { h = 0; } else {
+                switch (max) {
+                    case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+                    case g: h = (b - r) / d + 2; break;
+                    case b: h = (r - g) / d + 4; break;
+                }
+                h /= 6;
+            }
+            return { h: Math.round(h * 360), s: Math.round(s * 100), v: Math.round(v * 100) };
+        }
+
+        function rgbToCmyk(r, g, b) {
+            if (r === 0 && g === 0 && b === 0) return { c: 0, m: 0, y: 0, k: 100 };
+            let c = 1 - (r / 255), m = 1 - (g / 255), y = 1 - (b / 255);
+            let k = Math.min(c, Math.min(m, y));
+            return {
+                c: Math.round(((c - k) / (1 - k)) * 100),
+                m: Math.round(((m - k) / (1 - k)) * 100),
+                y: Math.round(((y - k) / (1 - k)) * 100),
+                k: Math.round(k * 100)
+            };
+        }
+
+        function initColorPicker() {
+            const nativePicker = document.getElementById('main-native-picker');
+            const hexInput = document.getElementById('main-hex-input');
+            nativePicker.addEventListener('input', (e) => updatePickerUI(e.target.value));
+            hexInput.addEventListener('input', (e) => {
+                let val = e.target.value;
+                if (!val.startsWith('#')) val = '#' + val;
+                if (hexToRgb(val)) updatePickerUI(val);
+            });
+        }
+
+        function updatePickerUI(hex) {
+            document.getElementById('main-native-picker').value = hex;
+            document.getElementById('main-hex-input').value = hex;
+            document.getElementById('main-color-display').style.backgroundColor = hex;
+            document.getElementById('main-preview-text').innerText = hex.toUpperCase();
+
+            const rgb = hexToRgb(hex);
+            if (!rgb) return;
+            const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
+            const hsv = rgbToHsv(rgb.r, rgb.g, rgb.b);
+            const cmyk = rgbToCmyk(rgb.r, rgb.g, rgb.b);
+
+            document.getElementById('val-hex').innerText = hex.toLowerCase();
+            document.getElementById('val-rgb').innerText = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
+            document.getElementById('val-hsl').innerText = `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`;
+            document.getElementById('val-hsv').innerText = `hsv(${hsv.h}, ${hsv.s}%, ${hsv.v}%)`;
+            document.getElementById('val-cmyk').innerText = `cmyk(${cmyk.c}%, ${cmyk.m}%, ${cmyk.y}%, ${cmyk.k}%)`;
+            document.getElementById('val-name').innerText = approximateColorName(hex);
+
+            document.getElementById('hero-gradient-preview').style.background = `linear-gradient(135deg, ${hex}, #ec4899)`;
+            document.getElementById('hero-hex-label').innerText = hex.toUpperCase();
+            document.getElementById('hero-rgb-label').innerText = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
+        }
+
+        function setRandomColor() {
+            const randomHex = "#" + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
+            updatePickerUI(randomHex);
+        }
+
+        function approximateColorName(hex) {
+            const rgb = hexToRgb(hex);
+            if (!rgb) return "Unknown";
+            if (rgb.r > 200 && rgb.g < 100 && rgb.b < 100) return "Red / Crimson";
+            if (rgb.r < 100 && rgb.g > 180 && rgb.b < 100) return "Green / Emerald";
+            if (rgb.r < 100 && rgb.g < 100 && rgb.b > 200) return "Blue / Cobalt";
+            return "Custom Blend";
+        }
+
+        function initUniversalConverter() {
+            const cHex = document.getElementById('conv-hex');
+            const cRgb = document.getElementById('conv-rgb');
+            const cHsl = document.getElementById('conv-hsl');
+            const err = document.getElementById('conv-error');
+
+            cHex.addEventListener('input', (e) => {
+                let hex = e.target.value.trim();
+                if (!hex.startsWith('#')) hex = '#' + hex;
+                const rgb = hexToRgb(hex);
+                if (rgb) {
+                    const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
+                    cRgb.value = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
+                    cHsl.value = `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`;
+                    document.getElementById('conv-preview-bar').style.backgroundColor = hex;
+                    err.innerText = '';
+                } else {
+                    err.innerText = 'Invalid HEX code string.';
+                }
+            });
+        }
+
+        function generatePalette() {
+            const baseHex = document.getElementById('palette-base-color').value;
+            const mode = document.getElementById('palette-mode').value;
+            const container = document.getElementById('palette-cards-container');
+            const rgb = hexToRgb(baseHex);
+            const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
+
+            let hues = [];
+            if (mode === 'complementary') hues = [hsl.h, (hsl.h + 180) % 360];
+            else if (mode === 'analogous') hues = [hsl.h, (hsl.h + 30) % 360, (hsl.h + 60) % 360, (hsl.h + 330) % 360];
+            else if (mode === 'triadic') hues = [hsl.h, (hsl.h + 120) % 360, (hsl.h + 240) % 360];
+            else hues = [hsl.h, hsl.h, hsl.h];
+
+            container.innerHTML = hues.map((h, i) => {
+                const l = mode === 'monochromatic' ? Math.max(10, Math.min(90, 20 + i * 20)) : hsl.l;
+                const itemRgb = hslToRgb(h, hsl.s, l);
+                const itemHex = rgbToHex(itemRgb.r, itemRgb.g, itemRgb.b);
+                return `
+                    <div class="palette-card">
+                        <div class="palette-swatch" style="background-color: ${itemHex};"></div>
+                        <div class="palette-meta">
+                            <span class="text-mono">${itemHex}</span>
+                            <button class="btn-copy" onclick="copyValue('${itemHex}')">Copy</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function exportPaletteJSON() {
+            const cards = document.querySelectorAll('.palette-card .text-mono');
+            const hexList = Array.from(cards).map(el => el.innerText);
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({ palette: hexList }));
+            const anchor = document.createElement('a');
+            anchor.setAttribute("href", dataStr);
+            anchor.setAttribute("download", "palette.json");
+            document.body.appendChild(anchor);
+            anchor.click();
+            anchor.remove();
+        }
+
+        function generateShadesTints() {
+            const baseHex = document.getElementById('shades-base-color').value;
+            document.getElementById('shades-hex-text').value = baseHex;
+            const rgb = hexToRgb(baseHex);
+            if (!rgb) return;
+
+            let tintsHTML = '', shadesHTML = '';
+            for (let i = 1; i <= 8; i++) {
+                const tintHex = rgbToHex(Math.round(rgb.r + (255 - rgb.r) * (i * 0.1)), Math.round(rgb.g + (255 - rgb.g) * (i * 0.1)), Math.round(rgb.b + (255 - rgb.b) * (i * 0.1)));
+                tintsHTML += `<div class="shade-box" style="background:${tintHex}; color:#000;" onclick="copyValue('${tintHex}')">${tintHex}</div>`;
+                const shadeHex = rgbToHex(Math.round(rgb.r * (1 - i * 0.1)), Math.round(rgb.g * (1 - i * 0.1)), Math.round(rgb.b * (1 - i * 0.1)));
+                shadesHTML += `<div class="shade-box" style="background:${shadeHex}; color:#fff;" onclick="copyValue('${shadeHex}')">${shadeHex}</div>`;
+            }
+            document.getElementById('tints-container').innerHTML = tintsHTML;
+            document.getElementById('shades-container').innerHTML = shadesHTML;
+        }
+
+        function updateGradient() {
+            const type = document.getElementById('grad-type').value;
+            const angle = document.getElementById('grad-angle').value;
+            const c1 = document.getElementById('grad-c1').value;
+            const c2 = document.getElementById('grad-c2').value;
+
+            document.getElementById('grad-angle-val').innerText = angle;
+            document.getElementById('angle-group').style.display = type === 'linear' ? 'flex' : 'none';
+
+            let cssStr = type === 'linear' ? `linear-gradient(${angle}deg, ${c1}, ${c2})` : (type === 'radial' ? `radial-gradient(circle, ${c1}, ${c2})` : `conic-gradient(from ${angle}deg, ${c1}, ${c2})`);
+            document.getElementById('gradient-box-display').style.background = cssStr;
+            document.getElementById('gradient-css-code').innerText = `background: ${cssStr};`;
+        }
+
+        function randomizeGradient() {
+            document.getElementById('grad-c1').value = "#" + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
+            document.getElementById('grad-c2').value = "#" + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
+            updateGradient();
+        }
+
+        function calculateContrast() {
+            const fg = document.getElementById('contrast-fg').value;
+            const bg = document.getElementById('contrast-bg').value;
+
+            document.getElementById('contrast-fg-text').value = fg;
+            document.getElementById('contrast-bg-text').value = bg;
+
+            const preview = document.getElementById('contrast-preview-card');
+            preview.style.color = fg;
+            preview.style.backgroundColor = bg;
+
+            const getLuminance = (hex) => {
+                const rgb = hexToRgb(hex);
+                const a = [rgb.r, rgb.g, rgb.b].map(v => {
+                    v /= 255;
+                    return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+                });
+                return a[0] * 0.2126 + a[1] * 0.7152 + a[2] * 0.0722;
+            };
+
+            const l1 = getLuminance(fg), l2 = getLuminance(bg);
+            const ratio = ((Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05)).toFixed(1);
+            document.getElementById('contrast-ratio-val').innerText = `${ratio}:1`;
+
+            document.getElementById('badge-normal-aa').innerText = ratio >= 4.5 ? 'PASS' : 'FAIL';
+            document.getElementById('badge-normal-aa').className = ratio >= 4.5 ? 'badge badge-success' : 'badge badge-fail';
+
+            document.getElementById('badge-large-aaa').innerText = ratio >= 7.0 ? 'PASS' : 'FAIL';
+            document.getElementById('badge-large-aaa').className = ratio >= 7.0 ? 'badge badge-success' : 'badge badge-fail';
+        }
+
+        function swapContrastColors() {
+            const fg = document.getElementById('contrast-fg').value;
+            const bg = document.getElementById('contrast-bg').value;
+            document.getElementById('contrast-fg').value = bg;
+            document.getElementById('contrast-bg').value = fg;
+            calculateContrast();
+        }
+
+        function initImageTools() {
+            const fileInput = document.getElementById('img-file-input');
+            const canvas = document.getElementById('image-canvas');
+            const ctx = canvas.getContext('2d');
+
+            fileInput.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+                const img = new Image();
+                img.onload = () => {
+                    canvas.width = img.width > 450 ? 450 : img.width;
+                    canvas.height = img.height * (canvas.width / img.width);
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    extractDominantPalette(ctx, canvas.width, canvas.height);
+                };
+                img.src = URL.createObjectURL(file);
+            });
+
+            canvas.addEventListener('click', (e) => {
+                const rect = canvas.getBoundingClientRect();
+                const x = e.clientX - rect.left, y = e.clientY - rect.top;
+                const pixel = ctx.getImageData(x, y, 1, 1).data;
+                const hex = rgbToHex(pixel[0], pixel[1], pixel[2]);
+                document.getElementById('picked-pixel-box').style.backgroundColor = hex;
+                document.getElementById('picked-pixel-code').innerText = hex;
+                showToast(`Picked ${hex}`);
+            });
+        }
+
+        function extractDominantPalette(ctx, width, height) {
+            const imgData = ctx.getImageData(0, 0, width, height).data;
+            const colorMap = {};
+            for (let i = 0; i < imgData.length; i += 40) {
+                const hex = rgbToHex(imgData[i], imgData[i+1], imgData[i+2]);
+                colorMap[hex] = (colorMap[hex] || 0) + 1;
+            }
+            const sorted = Object.keys(colorMap).sort((a, b) => colorMap[b] - colorMap[a]).slice(0, 6);
+            document.getElementById('extracted-palette-grid').innerHTML = sorted.map(hex => `
+                <div class="palette-card">
+                    <div class="palette-swatch" style="background-color: ${hex};"></div>
+                    <div class="palette-meta">
+                        <span class="text-mono">${hex}</span>
+                        <button class="btn-copy" onclick="copyValue('${hex}')">Copy</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function mixColors() {
+            const c1 = document.getElementById('mix-c1').value;
+            const c2 = document.getElementById('mix-c2').value;
+            const rgb1 = hexToRgb(c1), rgb2 = hexToRgb(c2);
+            const grid = document.getElementById('mixer-output-grid');
+
+            grid.innerHTML = [0.25, 0.5, 0.75].map(w => {
+                const hex = rgbToHex(Math.round(rgb1.r*(1-w) + rgb2.r*w), Math.round(rgb1.g*(1-w) + rgb2.g*w), Math.round(rgb1.b*(1-w) + rgb2.b*w));
+                return `<div class="shade-box" style="background:${hex}; color:#fff;" onclick="copyValue('${hex}')">${Math.round(w*100)}%</div>`;
+            }).join('');
+        }
+
+        function simulateColorBlindness() {
+            const hex = document.getElementById('cb-input').value;
+            const rgb = hexToRgb(hex);
+            const protan = rgbToHex(Math.round(rgb.r * 0.566 + rgb.g * 0.433), Math.round(rgb.r * 0.558 + rgb.g * 0.442), rgb.b);
+            document.getElementById('cb-results-list').innerHTML = `
+                <p class="small mt-1">Protanopia: <span class="text-mono">${protan}</span> <span class="color-swatch-sm" style="display:inline-block; background:${protan};"></span></p>
+            `;
+        }
+
+        function generateCssVariables() {
+            const hex = document.getElementById('main-native-picker').value;
+            document.getElementById('css-var-code').innerText = `:root {\n  --primary-color: ${hex};\n  --accent-color: ${hex}dd;\n}`;
+        }
+
+        function saveCurrentToFavorites() {
+            const hex = document.getElementById('main-hex-input').value;
+            let favs = JSON.parse(localStorage.getItem('mp_color_favs') || '[]');
+            if (!favs.includes(hex)) {
+                favs.push(hex);
+                localStorage.setItem('mp_color_favs', JSON.stringify(favs));
+                loadFavorites();
+                showToast(`Saved ${hex} to favorites!`);
+            }
+        }
+
+        function loadFavorites() {
+            const favs = JSON.parse(localStorage.getItem('mp_color_favs') || '[]');
+            const grid = document.getElementById('favorites-grid');
+            if (favs.length === 0) { grid.innerHTML = `<p class="text-muted">No stored favorites yet.</p>`; return; }
+            grid.innerHTML = favs.map(hex => `<div class="shade-box" style="background:${hex}; color:#fff;" onclick="copyValue('${hex}')">${hex}</div>`).join('');
+        }
+
+        function clearFavorites() {
+            localStorage.removeItem('mp_color_favs');
+            loadFavorites();
+            showToast('Cleared all saved favorites.');
+        }
+
+        function initSearchFilter() {
+            document.getElementById('tool-search-input').addEventListener('keyup', (e) => {
+                const query = e.target.value.toLowerCase();
+                document.querySelectorAll('.tool-card').forEach(card => card.style.display = card.innerText.toLowerCase().includes(query) ? 'block' : 'none');
+            });
+        }
+
+        function clearToolSearch() {
+            document.getElementById('tool-search-input').value = '';
+            document.querySelectorAll('.tool-card').forEach(card => card.style.display = 'block');
+        }
+
+        function initAccordion() {
+            document.querySelectorAll('.accordion-header').forEach(header => header.addEventListener('click', () => header.parentElement.classList.toggle('active')));
+        }
+
+        function copyText(id) { copyValue(document.getElementById(id).innerText); }
+
+        function copyValue(text) {
+            navigator.clipboard.writeText(text).then(() => showToast(`Copied "${text}"`)).catch(() => showToast('Copy failed'));
+        }
+
+        function showToast(msg) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.innerText = msg;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 2500);
+        }
+    </script>
 </body>
 </html>
